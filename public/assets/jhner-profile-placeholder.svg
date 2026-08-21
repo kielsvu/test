@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Jhner profile placeholder</title>
+  <desc id="desc">A dark circular JH monogram placeholder for the Jhner portfolio.</desc>
+  <rect width="512" height="512" rx="256" fill="#08080A"/>
+  <circle cx="256" cy="256" r="188" fill="#0D0D10" stroke="#B284FF" stroke-opacity=".45" stroke-width="2"/>
+  <text x="256" y="286" text-anchor="middle" fill="#B284FF" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700" letter-spacing="-10">JH</text>
+</svg>

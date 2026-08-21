@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #050505;
+  --bg-secondary: #08080a;
+  --bg-card: #0d0d10;
+  --border: rgba(178, 132, 255, 0.16);
+  --text-primary: #f5f3fa;
+  --text-secondary: #a29caf;
+  --text-muted: #6e687b;
+  --accent: #b284ff;
+  --accent-soft: rgba(178, 132, 255, 0.12);
+  --purple: #b284ff;
+  --blue: #7da7ff;
+  --green: #8ed6b2;
+  --rose: #ff9fbd;
+  --cyan: #7bdff2;
+}
+
+:root[data-theme='light'] {
+  --bg-primary: #f7f5fa;
+  --bg-secondary: #efedf3;
+  --bg-card: #ffffff;
+  --border: rgba(57, 41, 77, 0.14);
+  --text-primary: #17131d;
+  --text-secondary: #62596c;
+  --text-muted: #82788c;
+  --accent-soft: rgba(122, 75, 184, 0.1);
+}
+
+:root[data-accent='blue'] { --accent: #7da7ff; --accent-soft: rgba(125, 167, 255, 0.12); }
+:root[data-accent='green'] { --accent: #8ed6b2; --accent-soft: rgba(142, 214, 178, 0.12); }
+:root[data-accent='rose'] { --accent: #ff9fbd; --accent-soft: rgba(255, 159, 189, 0.12); }
+:root[data-accent='cyan'] { --accent: #7bdff2; --accent-soft: rgba(123, 223, 242, 0.12); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Syne', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+* { caret-color: transparent; user-select: none; }
+input, textarea { caret-color: auto; user-select: text; }
+::-webkit-scrollbar { width: 0; height: 0; }
+html { scrollbar-width: none; }
+body { -ms-overflow-style: none; }
+
+.jhner-mark {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 20px;
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  box-shadow: 0 0 32px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.jhner-ambient { position: absolute; width: 280px; height: 280px; border-radius: 999px; filter: blur(90px); opacity: .16; background: var(--accent); transform: translateZ(0); will-change: transform; }
+.jhner-ambient-one { top: 3%; left: 3%; animation: jhnerFloatOne 18s ease-in-out infinite alternate; }
+.jhner-ambient-two { top: 38%; right: -5%; opacity: .1; animation: jhnerFloatTwo 23s ease-in-out infinite alternate; }
+.jhner-ambient-three { bottom: -5%; left: 18%; opacity: .08; animation: jhnerFloatThree 26s ease-in-out infinite alternate; }
+.jhner-grid { position: absolute; inset: 0; background-image: linear-gradient(to right, color-mix(in srgb, var(--accent) 5%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--accent) 5%, transparent) 1px, transparent 1px); background-size: 30px 30px; opacity: .35; }
+
+@keyframes jhnerFloatOne { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(55px, 35px, 0); } }
+@keyframes jhnerFloatTwo { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-45px, 25px, 0); } }
+@keyframes jhnerFloatThree { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(35px, -25px, 0); } }
+
+body[data-motion='off'] *, body[data-motion-level='off'] * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+body[data-motion-level='subtle'] .jhner-ambient { animation-duration: 36s; }
+body[data-motion-level='balanced'] .jhner-ambient { animation-duration: 26s; }
+body[data-background='off'] .jhner-ambient, body[data-background='off'] .jhner-grid { display: none !important; }
+body[data-glass='off'] [class*='backdrop-blur'] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+@media (max-width: 640px) {
+  .jhner-ambient { width: 180px; height: 180px; filter: blur(65px); opacity: .1; }
+  .jhner-grid { background-size: 26px 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
