@@ -80,8 +80,8 @@ export default function BlackHole(props: Props) {
 
   const {
     voidRadius: rawVoidRadius,
-    voidX,
-    voidY,
+    voidX: voidXProp,
+    voidY: voidYProp,
   } = {
     ...DEFAULT_CENTRE,
     ...centre,
@@ -100,22 +100,27 @@ export default function BlackHole(props: Props) {
 
   const voidRadius = showCenter !== false ? rawVoidRadius : 1
 
+  // Resolve outer radius — on mobile use diagonal so the disk fills the screen
   const outerRadFromSize = useCallback(
     (w: number, h: number) => {
-      // On mobile (narrow screens) use the larger dimension so the disk
-      // fills the viewport and stays centered regardless of orientation
       const isMobile = w < 768
-      const base = isMobile ? Math.max(w, h) : w
-      const maxR = base / 2
-      // Boost outerRadius by 30% on mobile so it feels large and immersive
-      const mobilePct = isMobile
-        ? Math.min(100, outerRadius * 1.3)
-        : outerRadius
-      const pct = Math.max(0, Math.min(100, mobilePct)) / 100
-      return voidRadius + pct * (maxR - voidRadius)
+      // Desktop: use half-width as base (original behaviour)
+      // Mobile: use diagonal * 0.55 so the disk extends edge-to-edge
+      const base = isMobile ? Math.sqrt(w * w + h * h) * 0.55 : w / 2
+      const pct = Math.max(0, Math.min(100, outerRadius)) / 100
+      return voidRadius + pct * (base - voidRadius)
     },
     [voidRadius, outerRadius]
   )
+
+  // On mobile shift the disk center slightly lower so it doesn't clash with hero text
+  const resolveCenter = useCallback((w: number, h: number) => {
+    const isMobile = w < 768
+    const cx = isMobile ? w * 0.5 : (voidXProp / 100) * w
+    // Mobile: push center to ~62% down so the disk sits behind the text block
+    const cy = isMobile ? h * 0.62 : (voidYProp / 100) * h
+    return { cx, cy }
+  }, [voidXProp, voidYProp])
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fgCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -236,8 +241,7 @@ export default function BlackHole(props: Props) {
       fgCtx.globalCompositeOperation = "source-over"
 
       const outerRad = outerRadFromSize(w, h)
-      const voidCx = (voidX / 100) * w
-      const voidCy = (voidY / 100) * h
+      const { cx: voidCx, cy: voidCy } = resolveCenter(w, h)
 
       const pts = particlesRef.current
       const tiltRad = (tilt * Math.PI) / 180
@@ -276,22 +280,16 @@ export default function BlackHole(props: Props) {
         }
 
         const cosA = Math.cos(pt.angle)
-        const sinA = Math.sin(pt.angle)
-
         const x_base = pt.radius * cosA
         const y_base = pt.height
-        const z_base = pt.radius * sinA
+        const z_base = pt.radius * Math.sin(pt.angle)
 
         const x1 = x_base
-        const y1 =
-          y_base * Math.cos(tiltRad) + z_base * Math.sin(tiltRad)
-        const z1 =
-          -y_base * Math.sin(tiltRad) + z_base * Math.cos(tiltRad)
+        const y1 = y_base * Math.cos(tiltRad) + z_base * Math.sin(tiltRad)
+        const z1 = -y_base * Math.sin(tiltRad) + z_base * Math.cos(tiltRad)
 
-        const x3d =
-          x1 * Math.cos(tiltSidewayRad) - y1 * Math.sin(tiltSidewayRad)
-        const y3d =
-          x1 * Math.sin(tiltSidewayRad) + y1 * Math.cos(tiltSidewayRad)
+        const x3d = x1 * Math.cos(tiltSidewayRad) - y1 * Math.sin(tiltSidewayRad)
+        const y3d = x1 * Math.sin(tiltSidewayRad) + y1 * Math.cos(tiltSidewayRad)
         const z3d = z1
 
         const scale = perspective / (perspective + z3d)
@@ -307,7 +305,6 @@ export default function BlackHole(props: Props) {
         )
 
         const color = colors[pt.colorIdx % colors.length]
-
         const projectedPt: ProjectedPt = { x: px, y: py, size, alpha, z: z3d, color }
 
         if (z3d >= 0) {
@@ -358,14 +355,9 @@ export default function BlackHole(props: Props) {
           return { r, g, b }
         }
         const voidRgb = hexToRgb(voidColor)
-
         const sphereGrad = ctx.createRadialGradient(
-          voidCx - voidRadius * 0.25,
-          voidCy - voidRadius * 0.3,
-          voidRadius * 0.05,
-          voidCx,
-          voidCy,
-          voidRadius
+          voidCx - voidRadius * 0.25, voidCy - voidRadius * 0.3, voidRadius * 0.05,
+          voidCx, voidCy, voidRadius
         )
         const edgeR = Math.min(255, voidRgb.r + 18)
         const edgeG = Math.min(255, voidRgb.g + 18)
@@ -374,7 +366,6 @@ export default function BlackHole(props: Props) {
         sphereGrad.addColorStop(0.65, `rgba(${voidRgb.r}, ${voidRgb.g}, ${voidRgb.b}, 1)`)
         sphereGrad.addColorStop(0.92, `rgba(${edgeR}, ${edgeG}, ${edgeB}, 1)`)
         sphereGrad.addColorStop(1, `rgba(${edgeR}, ${edgeG}, ${edgeB}, 0.9)`)
-
         ctx.globalAlpha = 1.0
         ctx.fillStyle = sphereGrad
         ctx.beginPath()
@@ -413,8 +404,6 @@ export default function BlackHole(props: Props) {
     animRef.current = requestAnimationFrame(draw)
     return () => cancelAnimationFrame(animRef.current)
   }, [
-    voidX,
-    voidY,
     voidRadius,
     voidColor,
     showCenter,
@@ -423,6 +412,7 @@ export default function BlackHole(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     JSON.stringify(colors),
     outerRadFromSize,
+    resolveCenter,
     tilt,
     tiltSideway,
     trailAlpha,
@@ -435,7 +425,6 @@ export default function BlackHole(props: Props) {
     <div
       ref={containerRef}
       style={{
-        // fixed so it never moves on scroll
         position: "fixed",
         top: 0,
         left: 0,
@@ -444,7 +433,6 @@ export default function BlackHole(props: Props) {
         overflow: "hidden",
         background: "transparent",
         pointerEvents: "none",
-        // sit behind content but above the page bg
         zIndex: 0,
         ...style,
       }}
