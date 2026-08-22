@@ -74,17 +74,7 @@ useEffect(() => {
           pointerEvents: 'none',
         }}
       >
-        <BlackHole
-          particleCount={700}
-          particleSize={3}
-          colors={['#B284FF', '#D6BEFF', '#FFFFFF']}
-          outerRadius={70}
-          tilt={20}
-          tiltSideway={160}
-          trail={46}
-          orbitSpeed={4}
-          pullSpeed={0}
-        />
+        <BlackHole />
       </div>
 
       <div style={{ position: 'relative', zIndex: 2 }}>
