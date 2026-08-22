@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://jhner.github.io/sitemap.xml
