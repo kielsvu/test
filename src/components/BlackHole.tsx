@@ -3,7 +3,7 @@ const BG="#000000"// Stage background — void fill & halo both match this
 ;const PERSPECTIVE=1300// Fixed 3D projection depth (no longer a control)
 ;// ─── Defaults ────────────────────────────────────────────────
 const DEFAULT_CENTRE={voidRadius:40,voidX:50,voidY:50};const DEFAULTS={showCenter:true,centre:DEFAULT_CENTRE,particleCount:1e3,particleSize:4,colors:["#ffffff"],outerRadius:70,tilt:20,tiltSideway:160,trail:50,orbitSpeed:4,pullSpeed:0};// ─── Component ───────────────────────────────────────────────
-export default function BlackHole(props){// Flat variables — destructure directly with defaults
+function __OriginkitBase_BlackHole(props){// Flat variables — destructure directly with defaults
 const{showCenter=DEFAULTS.showCenter,centre,particleCount=DEFAULTS.particleCount,particleSize:particleSizeRaw=DEFAULTS.particleSize,colors=DEFAULTS.colors,outerRadius=DEFAULTS.outerRadius,tilt=DEFAULTS.tilt,tiltSideway=DEFAULTS.tiltSideway,trail:trailRaw=DEFAULTS.trail,orbitSpeed=DEFAULTS.orbitSpeed,pullSpeed:pullSpeedRaw=DEFAULTS.pullSpeed,style}=props;// Unpack the grouped center modal, merged with its defaults
 const{voidRadius:rawVoidRadius,voidX,voidY}={...DEFAULT_CENTRE,...centre};// Void fill matches the bg
 const voidColor=BG;const perspective=PERSPECTIVE;// Map whole-number slider values to effective render values
@@ -47,4 +47,13 @@ const sphereGrad=ctx.createRadialGradient(voidCx-voidRadius*.25,voidCy-voidRadiu
 const edgeR=Math.min(255,voidRgb.r+18);const edgeG=Math.min(255,voidRgb.g+18);const edgeB=Math.min(255,voidRgb.b+18);sphereGrad.addColorStop(0,`rgba(${Math.min(255,voidRgb.r+8)}, ${Math.min(255,voidRgb.g+8)}, ${Math.min(255,voidRgb.b+8)}, 1)`);sphereGrad.addColorStop(.65,`rgba(${voidRgb.r}, ${voidRgb.g}, ${voidRgb.b}, 1)`);sphereGrad.addColorStop(.92,`rgba(${edgeR}, ${edgeG}, ${edgeB}, 1)`);sphereGrad.addColorStop(1,`rgba(${edgeR}, ${edgeG}, ${edgeB}, 0.9)`);ctx.globalAlpha=1;ctx.fillStyle=sphereGrad;ctx.beginPath();ctx.arc(voidCx,voidCy,voidRadius,0,Math.PI*2);ctx.fill();// Layer 5: Rim light (bright edge outline for 3D pop)
 const rimGrad=ctx.createRadialGradient(voidCx,voidCy,voidRadius*.88,voidCx,voidCy,voidRadius*1.02);rimGrad.addColorStop(0,`rgba(255, 255, 255, 0)`);rimGrad.addColorStop(.6,`rgba(180, 180, 200, 0.06)`);rimGrad.addColorStop(.85,`rgba(180, 180, 200, 0.12)`);rimGrad.addColorStop(1,`rgba(180, 180, 200, 0)`);ctx.globalAlpha=1;ctx.fillStyle=rimGrad;ctx.beginPath();ctx.arc(voidCx,voidCy,voidRadius*1.02,0,Math.PI*2);ctx.fill();}// ─── Step C: Draw Foreground Particles on separate transparent canvas ───
 for(let i=0;i<foregroundParticles.length;i++){const pt=foregroundParticles[i];fgCtx.globalAlpha=pt.alpha;fgCtx.fillStyle=pt.color;fgCtx.beginPath();fgCtx.arc(pt.x,pt.y,pt.size,0,Math.PI*2);fgCtx.fill();}fgCtx.globalAlpha=1;animRef.current=requestAnimationFrame(draw);};animRef.current=requestAnimationFrame(draw);return()=>cancelAnimationFrame(animRef.current);},[voidX,voidY,voidRadius,voidColor,showCenter,particleCount,particleSize,JSON.stringify(colors),outerRadFromSize,tilt,tiltSideway,trailAlpha,orbitSpeed,pullSpeed,perspective]);return /*#__PURE__*/_jsxs("div",{ref:containerRef,style:{position:"fixed",inset:0,width:"100vw",height:"100dvh",minWidth:0,minHeight:0,overflow:"hidden",background:"transparent",pointerEvents:"none",zIndex:0,...style},children:[/*#__PURE__*/_jsx("canvas",{ref:canvasRef,style:{position:"absolute",inset:0,display:"block",width:"100%",height:"100%",maxWidth:"100%",maxHeight:"100%",pointerEvents:"none"}}),/*#__PURE__*/_jsx("canvas",{ref:fgCanvasRef,style:{position:"absolute",inset:0,display:"block",width:"100%",height:"100%",maxWidth:"100%",maxHeight:"100%",pointerEvents:"none"}})]});}// ─── Default Props ───────────────────────────────────────────
-BlackHole.defaultProps={...DEFAULTS};// ─── Property Controls ──────────────────────────────────────
+
+const __originkitPresetProps = {
+  showCenter: false,
+  outerRadius: 100,
+  particleSize: 2
+};
+
+export default function BlackHole(props: Record<string, unknown>) {
+  return <__OriginkitBase_BlackHole {...(__originkitPresetProps as Record<string, unknown>)} {...props} />;
+}
