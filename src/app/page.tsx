@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import AnimatedBackground from '@/components/AnimatedBackground'
+import BlackHole from '@/components/BlackHole'
 import Navbar from '@/components/ui/Navbar'
 import Hero from '@/components/sections/Hero'
 import About from '@/components/sections/About'
@@ -66,7 +66,26 @@ useEffect(() => {
 
   return (
     <main style={{ position: 'relative', overflow: 'hidden' }}>
-      <AnimatedBackground />
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      >
+        <BlackHole
+          particleCount={700}
+          particleSize={3}
+          colors={['#B284FF', '#D6BEFF', '#FFFFFF']}
+          outerRadius={70}
+          tilt={20}
+          tiltSideway={160}
+          trail={46}
+          orbitSpeed={4}
+          pullSpeed={0}
+        />
+      </div>
 
       <div style={{ position: 'relative', zIndex: 2 }}>
         <Navbar />
