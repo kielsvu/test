@@ -40,7 +40,7 @@ export default function WelcomeScreen() {
           maxWidth: '320px',
         }}
       >
-        {/* ICONS */}
+        
         <motion.div
           initial="hidden"
           animate="visible"
@@ -101,7 +101,7 @@ export default function WelcomeScreen() {
           ))}
         </motion.div>
 
-        {/* TEXT */}
+        
         <div
           style={{
             display: 'flex',
@@ -119,7 +119,7 @@ export default function WelcomeScreen() {
               flexWrap: 'wrap',
             }}
           >
-            {/* Welcome */}
+            
             <motion.span
               initial={{ opacity: 0, x: 120 }}
               animate={{ opacity: 1, x: 0 }}
@@ -137,7 +137,7 @@ export default function WelcomeScreen() {
               Welcome
             </motion.span>
 
-            {/* to my */}
+            
             <motion.span
               initial={{ opacity: 0, x: -120 }}
               animate={{ opacity: 1, x: 0 }}
@@ -156,7 +156,7 @@ export default function WelcomeScreen() {
             </motion.span>
           </div>
 
-          {/* Portfolio */}
+          
           <motion.h1
             initial={{ opacity: 0, y: 70 }}
             animate={{ opacity: 1, y: 0 }}
@@ -179,7 +179,7 @@ export default function WelcomeScreen() {
           </motion.h1>
         </div>
 
-        {/* DOMAIN CAPSULE */}
+        
         <motion.div
   initial={{ opacity: 0, y: -40 }} // ⬅️ dari atas
   animate={{ opacity: 1, y: 0 }}
@@ -199,7 +199,7 @@ export default function WelcomeScreen() {
     color: 'rgba(255,255,255,0.7)',
   }}
 >
-  www.rifqi.vercel.app
+  jhner.dev
 </motion.div>
       </motion.div>
     </div>

@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import ContactForm from './ContactForm'
-import CommentsSection from './CommentsSection'
 
 const smoothEase: [number, number, number, number] = [
   0.22,
@@ -21,7 +20,7 @@ export default function ContactSection() {
       pb-24 sm:pb-28 lg:pb-36 
       text-white"
     >
-      {/* HEADER */}
+      
 <motion.div
   initial={{ opacity: 0, y: 50 }}
   whileInView={{ opacity: 1, y: 0 }}
@@ -67,29 +66,26 @@ export default function ContactSection() {
   </motion.p>
 </motion.div>
 
-      {/* CONTENT */}
+      
       <div
         className="
         grid 
         grid-cols-1 
         md:grid-cols-1 
-        lg:grid-cols-[420px_1fr] 
+        lg:grid-cols-1 
         gap-6 sm:gap-8 md:gap-10 lg:gap-12
       "
       >
-        {/* FORM */}
+        
         <div className="w-full">
           <ContactForm />
         </div>
 
-        {/* COMMENTS */}
-        <div className="w-full">
-          <CommentsSection />
-        </div>
+
       </div>
- {/* COPYRIGHT */}
+ 
 <div className="mt-20 text-center text-xs text-white/35">
-  © 2026 Rifqi Muhammad Aliya — All rights reserved.
+  © 2026 Agustin Jhoner — All rights reserved.
 </div>
     </section>
   )

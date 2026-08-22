@@ -13,7 +13,6 @@ export default function RefreshRedirect() {
     const pathname = window.location.pathname
     const hash = window.location.hash
 
-    // hanya homepage + hash section
     const isHomeSectionRefresh =
       pathname === '/' && hash !== ''
 

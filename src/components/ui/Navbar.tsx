@@ -10,7 +10,6 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('home')
   const [mounted, setMounted] = useState(false)
 
-  // 🔥 navbar muncul sekali aja
   const [showNavbar, setShowNavbar] = useState(false)
 
   useEffect(() => {
@@ -50,7 +49,6 @@ export default function Navbar() {
     }
   }, [])
 
-  // 🔥 navbar animasi cuma pas refresh
   useEffect(() => {
     const navbarPlayed = sessionStorage.getItem('navbarPlayed')
 
@@ -164,7 +162,7 @@ export default function Navbar() {
             letterSpacing: '0.1em',
           }}
         >
-          rifqi.dev
+          jhner.dev
         </span>
 
         {!isMobile && (

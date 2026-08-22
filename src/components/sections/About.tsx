@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { motion, Variants } from "framer-motion";
-import { Code, Award, Globe, FileText, ArrowUpRight } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { Code, Globe, FileText, ArrowUpRight } from "lucide-react";
 
-/* ================== ANIMATION ================== */
+
 
 const container: Variants = {
   hidden: {},
@@ -55,42 +54,19 @@ const pop: Variants = {
   },
 };
 
-/* ================== COMPONENT ================== */
+
 
 export default function About() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
-  const [projectCount, setProjectCount] = useState(0);
-  const [certificateCount, setCertificateCount] = useState(0);
+  const projectCount = 3
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-
-    check();
-    window.addEventListener("resize", check);
-
-    fetchStats();
-
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  const fetchStats = async () => {
-    try {
-      const { count: projects } = await supabase
-        .from("projects")
-        .select("*", { count: "exact", head: true });
-
-      const { count: certificates } = await supabase
-        .from("certificates")
-        .select("*", { count: "exact", head: true });
-
-      setProjectCount(projects || 0);
-      setCertificateCount(certificates || 0);
-    } catch {
-      setProjectCount(0);
-      setCertificateCount(0);
-    }
-  };
+    const updateMobile = () => setIsMobile(window.innerWidth < 768)
+    updateMobile()
+    window.addEventListener("resize", updateMobile)
+    return () => window.removeEventListener("resize", updateMobile)
+  }, [])
 
   const scrollToPortfolio = () => {
     const el = document.getElementById("portfolio");
@@ -107,14 +83,10 @@ export default function About() {
       value: String(projectCount),
       title: "PROJECTS",
     },
-    {
-      icon: <Award size={16} />,
-      value: String(certificateCount),
-      title: "CERTIFICATES",
-    },
+
     {
       icon: <Globe size={16} />,
-      value: String(projectCount + certificateCount),
+      value: String(projectCount),
       title: "COMPLETED WORKS",
     },
   ];
@@ -139,7 +111,7 @@ export default function About() {
             gap: "32px",
           }}
         >
-          {/* LEFT */}
+          
           <motion.div
             variants={container}
             initial="hidden"
@@ -172,9 +144,8 @@ export default function About() {
                   color: "var(--text-primary)",
                 }}
               >
-                <div>Rifqi</div>
-                <div>Muhammad</div>
-                <div>Aliya</div>
+                <div>Agustin</div>
+                <div>Jhoner</div>
               </div>
             </motion.div>
 
@@ -198,13 +169,12 @@ export default function About() {
                 maxWidth: isMobile ? "100%" : "490px",
               }}
             >
-              Fresh Graduate SMK Rekayasa Perangkat Lunak lulusan 2026 dengan
-              passion di bidang frontend development dan UI modern. Berfokus
-              pada pembuatan website clean, responsif, dan visual yang kuat
-              untuk menghadirkan pengalaman digital yang optimal.
+              Computer Programming student focused on frontend development, modern UI,
+              and practical web development. I enjoy building clean, responsive
+              interfaces and turning ideas into polished digital experiences.
             </motion.p>
 
-            {/* QUOTE */}
+            
             <motion.div
               variants={{
                 hidden: { opacity: 0, scale: 0.94 },
@@ -233,7 +203,7 @@ export default function About() {
               experiences.”
             </motion.div>
 
-            {/* BUTTONS */}
+            
             <motion.div
               variants={fadeUp}
               style={{
@@ -243,9 +213,9 @@ export default function About() {
                 flexWrap: "wrap",
               }}
             >
-              {/* DOWNLOAD CV */}
+              
               <a
-                href="https://drive.google.com/file/d/1cFqZ0TY0U0I51K0Tchv8E4sbOv5yAZ9x/view?usp=drive_link"
+                href="#contact"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ textDecoration: "none" }}
@@ -276,11 +246,11 @@ export default function About() {
                   }}
                 >
                   <FileText size={14} />
-                  Download CV
+                  Contact Me
                 </button>
               </a>
 
-              {/* VIEW PROJECTS */}
+              
               <button
                 onClick={scrollToPortfolio}
                 style={{
@@ -313,7 +283,7 @@ export default function About() {
             </motion.div>
           </motion.div>
 
-          {/* IMAGE */}
+          
           {!isMobile && (
             <motion.div
               variants={slideLeft}
@@ -350,7 +320,7 @@ export default function About() {
           )}
         </div>
 
-        {/* CARDS */}
+        
         <motion.div
           variants={container}
           initial="hidden"

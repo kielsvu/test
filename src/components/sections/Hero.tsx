@@ -51,7 +51,7 @@ export default function Hero({ showApp }: HeroProps) {
         overflow: "hidden",
       }}
     >
-      {/* APP LAYER */}
+      
       <div
         style={{
           position: "absolute",
@@ -63,7 +63,7 @@ export default function Hero({ showApp }: HeroProps) {
         {showApp && <App />}
       </div>
 
-      {/* TEXT */}
+      
       <div
         className="md:max-w-[600px]"
         style={{
@@ -72,7 +72,7 @@ export default function Hero({ showApp }: HeroProps) {
           zIndex: 5,
         }}
       >
-        {/* LABEL */}
+        
         <motion.div
           initial={false}
           animate={
@@ -96,7 +96,7 @@ export default function Hero({ showApp }: HeroProps) {
           </span>
         </motion.div>
 
-        {/* HEADING */}
+        
         <div>
           <motion.h1
             initial={false}
@@ -146,7 +146,7 @@ export default function Hero({ showApp }: HeroProps) {
           </motion.h1>
         </div>
 
-        {/* STATUS */}
+        
         <motion.div
           initial={false}
           animate={startAnim ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
@@ -173,7 +173,7 @@ export default function Hero({ showApp }: HeroProps) {
           </span>
         </motion.div>
 
-        {/* DESC */}
+        
         <motion.div
           initial={false}
           animate={
@@ -203,7 +203,7 @@ export default function Hero({ showApp }: HeroProps) {
           </p>
         </motion.div>
 
-        {/* SKILLS */}
+        
         <motion.div
           initial="hidden"
           animate={startAnim ? "visible" : "hidden"}
@@ -246,7 +246,7 @@ export default function Hero({ showApp }: HeroProps) {
           ))}
         </motion.div>
 
-        {/* FOOTER */}
+        
         <motion.div
           initial={false}
           animate={startAnim ? { opacity: 1, y: 0 } : { opacity: 0, y: 25 }}
@@ -278,7 +278,7 @@ export default function Hero({ showApp }: HeroProps) {
           </span>
         </motion.div>
       </div>
-      {/* SCROLL INDICATOR */}
+      
       <motion.div
         initial={false}
         animate={startAnim ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
@@ -296,7 +296,7 @@ export default function Hero({ showApp }: HeroProps) {
           pointerEvents: "none",
         }}
       >
-        {/* SCROLL INDICATOR */}
+        
 <motion.div
   initial={false}
   animate={
