@@ -17,75 +17,64 @@ export default function Home() {
   const [showWelcome, setShowWelcome] = useState(false)
   const [showApp, setShowApp] = useState(true)
 
-useEffect(() => {
-  const currentHash = window.location.hash
-  const pathname = window.location.pathname
-  if (currentHash === '#portfolio') {
-    setShowWelcome(false)
-    setShowApp(true)
-    return
-  }
-
-  const navEntries = performance.getEntriesByType('navigation')
-  const navigationType =
-    navEntries.length > 0
-      ? (navEntries[0] as PerformanceNavigationTiming).type
-      : null
-
-  const isReload = navigationType === 'reload'
-  if (isReload && pathname === '/') {
-    sessionStorage.removeItem('introPlayed')
-    sessionStorage.removeItem('heroPlayed')
-
-    if (window.location.hash) {
-      history.replaceState(null, '', '/')
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'instant',
-    })
-  }
-
-  if (!hasPlayedIntro()) {
-    setShowWelcome(true)
-    setShowApp(false)
-
-    const timer = setTimeout(() => {
+  useEffect(() => {
+    const currentHash = window.location.hash
+    const pathname = window.location.pathname
+    if (currentHash === '#portfolio') {
       setShowWelcome(false)
       setShowApp(true)
-      setIntroPlayed()
-    }, 2800)
+      return
+    }
 
-    return () => clearTimeout(timer)
-  } else {
-    setShowWelcome(false)
-    setShowApp(true)
-  }
-}, [])
+    const navEntries = performance.getEntriesByType('navigation')
+    const navigationType =
+      navEntries.length > 0
+        ? (navEntries[0] as PerformanceNavigationTiming).type
+        : null
+
+    const isReload = navigationType === 'reload'
+    if (isReload && pathname === '/') {
+      sessionStorage.removeItem('introPlayed')
+      sessionStorage.removeItem('heroPlayed')
+
+      if (window.location.hash) {
+        history.replaceState(null, '', '/')
+      }
+
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    }
+
+    if (!hasPlayedIntro()) {
+      setShowWelcome(true)
+      setShowApp(false)
+
+      const timer = setTimeout(() => {
+        setShowWelcome(false)
+        setShowApp(true)
+        setIntroPlayed()
+      }, 2800)
+
+      return () => clearTimeout(timer)
+    } else {
+      setShowWelcome(false)
+      setShowApp(true)
+    }
+  }, [])
 
   return (
     <main style={{ position: 'relative', overflow: 'hidden' }}>
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      >
-        <BlackHole
-          particleCount={900}
-          particleSize={3}
-          colors={['#B284FF', '#D6BEFF', '#FFFFFF']}
-          outerRadius={100}
-          tilt={18}
-          tiltSideway={160}
-          trail={46}
-          orbitSpeed={4}
-          pullSpeed={0}
-        />
-      </div>
+      {/* BlackHole is position:fixed internally — no wrapper needed */}
+      <BlackHole
+        particleCount={900}
+        particleSize={3}
+        colors={['#B284FF', '#D6BEFF', '#FFFFFF']}
+        outerRadius={100}
+        tilt={18}
+        tiltSideway={160}
+        trail={46}
+        orbitSpeed={4}
+        pullSpeed={0}
+      />
 
       <div style={{ position: 'relative', zIndex: 2 }}>
         <Navbar />
