@@ -195,25 +195,44 @@ nav{
 
 /* 3D CARD AREA */
 .hero-3d{
-  position:absolute;right:0;top:0;bottom:0;width:58%;
-  display:flex;align-items:center;justify-content:center;
+  position:absolute;
+  top:-20px;
+  right:-20px;
+  width:min(520px,46vw);
+  height:calc(100% + 20px);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
   z-index:4;
   pointer-events:none;
-  opacity:0;animation:heroReveal 0.9s cubic-bezier(0.22,1,0.36,1) 3.9s forwards;
+  opacity:0;
+  animation:heroReveal 0.9s cubic-bezier(0.22,1,0.36,1) 3.9s forwards;
 }
 .hero-3d canvas{
-  width:100%!important;height:100%!important;
+  width:100%!important;
+  height:100%!important;
   background:transparent!important;
   pointer-events:auto;
 }
 @media(max-width:900px){
-  .hero-3d{width:55%;}
+  .hero-3d{
+    width:min(460px,52vw);
+    right:-10px;
+  }
 }
 @media(max-width:767px){
   .hero-3d{
-    position:relative;width:calc(100% + 24px);right:auto;top:auto;bottom:auto;
-    height:430px;margin:-20px -12px 0;
-    order:-1;
+    position:absolute;
+    top:-8px;
+    right:-54px;
+    width:72vw;
+    height:470px;
+    margin:0;
+    z-index:4;
+    pointer-events:none;
+  }
+  .hero-3d canvas{
+    pointer-events:auto;
   }
 }
 

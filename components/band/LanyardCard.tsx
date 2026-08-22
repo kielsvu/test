@@ -183,8 +183,11 @@ export default function LanyardCard() {
   return (
     <Canvas
       camera={{ position: [0, 0, 13], fov: 25 }}
-      gl={{ alpha: true, antialias: true }}
-      style={{ background: 'transparent' }}
+      gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
+      onCreated={({ gl }) => {
+        gl.setClearColor(0x000000, 0);
+      }}
+      style={{ background: 'transparent', display: 'block' }}
     >
       <ambientLight intensity={Math.PI} />
       <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
