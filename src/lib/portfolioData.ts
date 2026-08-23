@@ -22,9 +22,27 @@ export type LocalTechStack = {
   logo_key: string
 }
 
-export const projects: LocalProject[] = []
+export const projects: LocalProject[] = [
+  /*
+  {
+  id: 'project-1',
+  title: 'My Project',
+  description: 'Project description.',
+  image_url: '/projects/project-1.png',
+}
+*/
+]
 
-export const certificates: LocalCertificate[] = []
+export const certificates: LocalCertificate[] = [
+  /*
+  {
+  id: 'certificate-1',
+  title: 'Certificate Name',
+  description: 'Certificate description.',
+  image_url: '/certificates/certificate-1.png',
+}
+*/
+]
 
 export const techStacks: LocalTechStack[] = [
   { id: 'react', name: 'React', logo_key: 'react' },
