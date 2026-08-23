@@ -252,25 +252,24 @@ export default function About() {
           </motion.div>
 
           {}
-          {!isMobile && (
-            <motion.div
+          <motion.div
               variants={slideLeft}
               initial="hidden"
               whileInView="show"
               viewport={{ once: false }}
               style={{
-                width: "48%",
+                width: isMobile ? "100%" : "48%",
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: isMobile ? "center" : "flex-end",
               }}
             >
               <div
                 style={{
-                  width: 264,
-                  height: 264,
+                  width: isMobile ? "min(264px, 68vw)" : 264,
+                  height: isMobile ? "min(264px, 68vw)" : 264,
                   borderRadius: "50%",
                   border: "1px solid var(--border)",
-                  transform: "translateX(-80px)",
+                  transform: isMobile ? "none" : "translateX(-80px)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -291,7 +290,6 @@ export default function About() {
                 </span>
               </div>
             </motion.div>
-          )}
         </div>
 
         <motion.div
