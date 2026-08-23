@@ -59,6 +59,19 @@ const pop: Variants = {
 export default function About() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
+  useEffect(() => {
+    const updateMobileState = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateMobileState();
+    window.addEventListener("resize", updateMobileState);
+
+    return () => {
+      window.removeEventListener("resize", updateMobileState);
+    };
+  }, []);
+
   const projectCount = 1
   const scrollToPortfolio = () => {
     const el = document.getElementById("portfolio");
