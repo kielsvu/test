@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import usePortfolio from '@/hooks/usePortfolio'
 import PortfolioCard from './PortfolioCard'
+import TechStackIcon from './TechStackIcon'
 
 const smoothEase: [number, number, number, number] = [
   0.22,
@@ -18,10 +19,21 @@ const smoothEase: [number, number, number, number] = [
 ]
 
 export default function PortfolioShowcase() {
-  const { projects, techStacks, loading } = usePortfolio()
+  const {
+    projects,
+    certificates,
+    techStacks,
+    loading,
+  } = usePortfolio()
 
   const [activeTab, setActiveTab] =
     useState('projects')
+
+  const [previewOpen, setPreviewOpen] =
+    useState(false)
+
+  const [previewImage, setPreviewImage] =
+    useState('')
 
   const [showAllProjects, setShowAllProjects] =
     useState(false)
@@ -32,10 +44,48 @@ export default function PortfolioShowcase() {
 
   return (
     <>
+      {/* PREVIEW */}
+      <AnimatePresence>
+        {previewOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[999] bg-black/90 backdrop-blur-md flex items-center justify-center px-6"
+          >
+            <button
+              onClick={() => setPreviewOpen(false)}
+              className="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+            >
+              <X size={18} />
+            </button>
+
+            <motion.img
+              initial={{
+                scale: 0.92,
+                opacity: 0,
+              }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+              }}
+              exit={{
+                scale: 0.92,
+                opacity: 0,
+              }}
+              transition={{ duration: 0.35 }}
+              src={previewImage}
+              className="max-w-[88vw] max-h-[88vh] rounded-3xl object-contain"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section
         id="portfolio"
         className="w-full max-w-[1450px] mx-auto px-8 md:px-12 lg:px-20 pt-24 pb-24 text-white"
       >
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 45 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -47,14 +97,17 @@ export default function PortfolioShowcase() {
           </h1>
 
           <p className="text-white/55 max-w-xl mx-auto text-sm md:text-base">
-            Explore my projects and technical work, built with modern web technologies.
+            Explore my journey through projects,
+            certifications, and technical expertise.
           </p>
         </motion.div>
 
+        {/* TAB */}
         <div className="flex justify-center mb-10">
           <div className="w-full max-w-3xl rounded-full border border-white/10 bg-white/5 p-2 flex gap-2 backdrop-blur-xl">
             {[
               'projects',
+              'certificates',
               'techstack',
             ].map((tab) => (
               <button
@@ -74,6 +127,8 @@ export default function PortfolioShowcase() {
               >
                 {tab === 'projects'
                   ? 'Projects'
+                  : tab === 'certificates'
+                  ? 'Certificates'
                   : 'Tech Stack'}
               </button>
             ))}
@@ -88,7 +143,7 @@ export default function PortfolioShowcase() {
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.45 }}
           >
-            {}
+            {/* PROJECTS */}
             {activeTab === 'projects' && (
               <div className="space-y-8">
                 <motion.div
@@ -145,7 +200,7 @@ export default function PortfolioShowcase() {
                   </AnimatePresence>
                 </motion.div>
 
-                {}
+                {/* SEE MORE / LESS */}
                 {!loading &&
                   projects.length > 3 && (
                     <motion.div
@@ -218,57 +273,95 @@ export default function PortfolioShowcase() {
               </div>
             )}
 
-            {}
-{activeTab === 'techstack' && (
-  <div className="min-h-[360px] flex justify-center">
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
-      {!loading &&
-        techStacks?.map((item, index) => (
-          <motion.div
-            key={item.id}
-            initial={{
-              opacity: 0,
-              scale: 0.9,
-              y: 20,
-            }}
-            whileInView={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.45,
-              delay: index * 0.04,
-            }}
-            whileHover={{
-              y: -5,
-              scale: 1.04,
-            }}
-            className="group rounded-[24px] border border-white/10 bg-white/[0.04] backdrop-blur-xl flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
-          >
-            <div className="relative flex items-center justify-center">
-              {}
-              <div className="absolute w-[70px] h-[70px] rounded-full bg-white/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500" />
+            {/* CERTIFICATES */}
+            {activeTab === 'certificates' && (
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
+                {!loading &&
+                  certificates.map((item, i) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{
+                        opacity: 0,
+                        y: 25,
+                        scale: 0.96,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.04,
+                      }}
+                      whileHover={{ y: -4 }}
+                      onClick={() => {
+                        setPreviewImage(
+                          item.image_url
+                        )
+                        setPreviewOpen(true)
+                      }}
+                      className="group cursor-pointer rounded-[26px] border border-white/10 bg-white/5 p-4 backdrop-blur-xl"
+                    >
+                      <div className="rounded-2xl overflow-hidden border border-white/10 h-56">
+                        <img
+                          src={item.image_url}
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                        />
+                      </div>
 
-              {item.logo_url ? (
-                <img
-                  src={item.logo_url}
-                  alt={item.name}
-                  className="relative z-10 w-[56px] h-[56px] object-contain"
-                />
-              ) : (
-                <div className="relative z-10 w-[56px] h-[56px] rounded-2xl bg-white/10" />
-              )}
-            </div>
+                      <h3 className="mt-4 text-[15px] font-semibold text-center text-white/90">
+                        {item.title}
+                      </h3>
+                    </motion.div>
+                  ))}
+              </div>
+            )}
 
-            <p className="text-[11px] text-white/80 text-center leading-tight px-2 line-clamp-1">
-              {item.name}
-            </p>
-          </motion.div>
-        ))}
-    </div>
-  </div>
-)}
+            {/* TECH STACK */}
+            {activeTab === 'techstack' && (
+              <div className="min-h-[360px] flex justify-center">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
+                  {!loading &&
+                    techStacks?.map((item, index) => (
+                      <motion.div
+                        key={item.id}
+                        initial={{
+                          opacity: 0,
+                          scale: 0.9,
+                          y: 20,
+                        }}
+                        whileInView={{
+                          opacity: 1,
+                          scale: 1,
+                          y: 0,
+                        }}
+                        transition={{
+                          duration: 0.45,
+                          delay: index * 0.04,
+                        }}
+                        whileHover={{
+                          y: -5,
+                          scale: 1.04,
+                        }}
+                        className="group rounded-[24px] border border-white/10 bg-white/[0.04] backdrop-blur-xl flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
+                      >
+                        <div className="relative flex items-center justify-center [--tech-icon-bg:#080808]">
+                          <div className="absolute w-[70px] h-[70px] rounded-full bg-white/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500" />
+                          <TechStackIcon
+                            name={item.logo_key || item.name}
+                            className="relative z-10 w-[56px] h-[56px] text-white"
+                            aria-label={item.name}
+                          />
+                        </div>
+                        <p className="text-[11px] text-white/80 text-center leading-tight px-2 line-clamp-1">
+                          {item.name}
+                        </p>
+                      </motion.div>
+                    ))}
+                </div>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </section>
