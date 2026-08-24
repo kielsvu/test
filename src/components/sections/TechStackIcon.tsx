@@ -59,15 +59,40 @@ function GithubIcon(p: SVGProps<SVGSVGElement>) {
 
 function LuaIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <circle cx="11.3" cy="12.1" r="7.35" stroke="currentColor" strokeWidth="1.75"/>
-    <circle cx="9.15" cy="9.7" r="2.15" fill="currentColor"/>
-    <circle cx="15.45" cy="14.9" r="1.8" fill="currentColor"/>
-    <circle cx="17.15" cy="7.15" r="1.25" fill="currentColor"/>
     <path
-      d="M14.65 6.45c1.55.45 2.8 1.35 3.65 2.55"
+      d="M3.25 12a8.75 8.75 0 1 0 17.5 0 8.75 8.75 0 0 0-17.5 0Z"
+      fill="currentColor"
+    />
+    <circle cx="15.15" cy="8.15" r="2.15" fill="var(--tech-icon-bg,#080808)"/>
+    <circle cx="19.25" cy="4.25" r="1.55" fill="currentColor"/>
+    <path
+      d="M2.05 12.05a9.95 9.95 0 0 1 17.2-6.85"
       stroke="currentColor"
-      strokeWidth="1.2"
+      strokeOpacity=".62"
+      strokeWidth="0.85"
+      strokeDasharray="1.55 1.25"
       strokeLinecap="round"
+    />
+    <path
+      d="M8.05 15.7V8.25M8.05 15.7h4.25"
+      stroke="var(--tech-icon-bg,#080808)"
+      strokeWidth="1.15"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12.45 11.15v4.55M12.45 15.7h2.65c1.05 0 1.65-.58 1.65-1.55v-3"
+      stroke="var(--tech-icon-bg,#080808)"
+      strokeWidth="1.08"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M17.25 11.15v4.55M17.25 13.55h1.95M19.2 11.15v4.55"
+      stroke="var(--tech-icon-bg,#080808)"
+      strokeWidth="1.08"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 }
