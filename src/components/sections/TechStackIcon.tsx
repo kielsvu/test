@@ -59,11 +59,16 @@ function GithubIcon(p: SVGProps<SVGSVGElement>) {
 
 function LuaIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <circle cx="11.5" cy="12" r="7.2" stroke="currentColor" strokeWidth="1.7"/>
-    <circle cx="9.1" cy="9.7" r="2.15" fill="currentColor"/>
-    <circle cx="15.2" cy="14.8" r="1.75" fill="currentColor"/>
-    <circle cx="16.9" cy="7.2" r="1.35" fill="currentColor"/>
-    <path d="M14.35 6.45c1.35.45 2.55 1.25 3.45 2.3" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
+    <circle cx="11.3" cy="12.1" r="7.35" stroke="currentColor" strokeWidth="1.75"/>
+    <circle cx="9.15" cy="9.7" r="2.15" fill="currentColor"/>
+    <circle cx="15.45" cy="14.9" r="1.8" fill="currentColor"/>
+    <circle cx="17.15" cy="7.15" r="1.25" fill="currentColor"/>
+    <path
+      d="M14.65 6.45c1.55.45 2.8 1.35 3.65 2.55"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
   </svg>
 }
 
@@ -82,8 +87,18 @@ function CppIcon(p: SVGProps<SVGSVGElement>) {
 
 function CSharpIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <path d="M13.2 7.2a5.25 5.25 0 1 0 0 9.6" stroke="currentColor" strokeWidth="2.65" strokeLinecap="round"/>
-    <path d="M16.15 9.5v4.2M14.05 11.6h4.2M20.05 9.5v4.2M17.95 11.6h4.2" stroke="currentColor" strokeWidth="1.05" strokeLinecap="round"/>
+    <path
+      d="M11.8 7.1a5.25 5.25 0 1 0 0 9.8"
+      stroke="currentColor"
+      strokeWidth="2.65"
+      strokeLinecap="round"
+    />
+    <path
+      d="M16.7 8.7 15.8 15.3M20.1 8.7 19.2 15.3M14.8 11.1h6.3M14.35 13.5h6.3"
+      stroke="currentColor"
+      strokeWidth="1.05"
+      strokeLinecap="round"
+    />
   </svg>
 }
 
