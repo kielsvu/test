@@ -58,43 +58,13 @@ function GithubIcon(p: SVGProps<SVGSVGElement>) {
 }
 
 function LuaIcon(p: SVGProps<SVGSVGElement>) {
-  return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <path
-      d="M3.25 12a8.75 8.75 0 1 0 17.5 0 8.75 8.75 0 0 0-17.5 0Z"
-      fill="currentColor"
-    />
-    <circle cx="15.15" cy="8.15" r="2.15" fill="var(--tech-icon-bg,#080808)"/>
-    <circle cx="19.25" cy="4.25" r="1.55" fill="currentColor"/>
-    <path
-      d="M2.05 12.05a9.95 9.95 0 0 1 17.2-6.85"
-      stroke="currentColor"
-      strokeOpacity=".62"
-      strokeWidth="0.85"
-      strokeDasharray="1.55 1.25"
-      strokeLinecap="round"
-    />
-    <path
-      d="M8.05 15.7V8.25M8.05 15.7h4.25"
-      stroke="var(--tech-icon-bg,#080808)"
-      strokeWidth="1.15"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M12.45 11.15v4.55M12.45 15.7h2.65c1.05 0 1.65-.58 1.65-1.55v-3"
-      stroke="var(--tech-icon-bg,#080808)"
-      strokeWidth="1.08"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M17.25 11.15v4.55M17.25 13.55h1.95M19.2 11.15v4.55"
-      stroke="var(--tech-icon-bg,#080808)"
-      strokeWidth="1.08"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
+  // Lua logo: large filled circle with crescent cutout + small satellite circle top-right
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
+      <path d="M11.5 2a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19zm3.2 2.6a7.3 7.3 0 0 1 0 13.8 9.5 9.5 0 0 1 0-13.8z"/>
+      <circle cx="20.5" cy="3.5" r="2.5"/>
+    </svg>
+  )
 }
 
 function CIcon(p: SVGProps<SVGSVGElement>) {
