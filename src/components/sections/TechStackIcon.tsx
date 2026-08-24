@@ -58,43 +58,13 @@ function GithubIcon(p: SVGProps<SVGSVGElement>) {
 }
 
 function LuaIcon(p: SVGProps<SVGSVGElement>) {
-  return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <path
-      d="M3.25 12a8.75 8.75 0 1 0 17.5 0 8.75 8.75 0 0 0-17.5 0Z"
-      fill="currentColor"
-    />
-    <circle cx="15.15" cy="8.15" r="2.15" fill="var(--tech-icon-bg,#080808)"/>
-    <circle cx="19.25" cy="4.25" r="1.55" fill="currentColor"/>
-    <path
-      d="M2.05 12.05a9.95 9.95 0 0 1 17.2-6.85"
-      stroke="currentColor"
-      strokeOpacity=".62"
-      strokeWidth="0.85"
-      strokeDasharray="1.55 1.25"
-      strokeLinecap="round"
-    />
-    <path
-      d="M8.05 15.7V8.25M8.05 15.7h4.25"
-      stroke="var(--tech-icon-bg,#080808)"
-      strokeWidth="1.15"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M12.45 11.15v4.55M12.45 15.7h2.65c1.05 0 1.65-.58 1.65-1.55v-3"
-      stroke="var(--tech-icon-bg,#080808)"
-      strokeWidth="1.08"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M17.25 11.15v4.55M17.25 13.55h1.95M19.2 11.15v4.55"
-      stroke="var(--tech-icon-bg,#080808)"
-      strokeWidth="1.08"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
+  return (
+    <svg viewBox="0 0 24 24" {...p}>
+      <circle cx="11" cy="13" r="9.5" fill="currentColor"/>
+      <circle cx="14.5" cy="9" r="3" fill="var(--tech-icon-bg,#080808)"/>
+      <circle cx="21.5" cy="2.5" r="2.5" fill="currentColor"/>
+    </svg>
+  )
 }
 
 function CIcon(p: SVGProps<SVGSVGElement>) {
@@ -156,7 +126,7 @@ function JavaIcon(p: SVGProps<SVGSVGElement>) { return <LetterIcon letter="JAVA"
 function KotlinIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-      <path d="M2 2h11l-11 11V2zm0 20 11-11 9 11H2zm12.3-20H22l-9 9 9 11h-7.7L5.6 11 14.3 2z"/>
+      <path d="M2 2h11L2 13V2zm0 20 11-11 9 11H2zm12-20h8L12 12l10 10h-8L4 12 14 2z"/>
     </svg>
   )
 }
