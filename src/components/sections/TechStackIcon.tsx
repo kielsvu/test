@@ -59,38 +59,55 @@ function GithubIcon(p: SVGProps<SVGSVGElement>) {
 
 function LuaIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <circle cx="12" cy="12" r="8.8" stroke="currentColor" strokeWidth="1.7"/>
-    <circle cx="9" cy="9" r="2.25" fill="currentColor"/>
-    <circle cx="15.4" cy="15.2" r="1.7" fill="currentColor"/>
-    <circle cx="16.7" cy="7.2" r="1.25" fill="currentColor"/>
-    <path d="M14.7 6.7a6.2 6.2 0 0 1 2.8 2.3" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
+    <circle cx="11.5" cy="12" r="7.2" stroke="currentColor" strokeWidth="1.7"/>
+    <circle cx="9.1" cy="9.7" r="2.15" fill="currentColor"/>
+    <circle cx="15.2" cy="14.8" r="1.75" fill="currentColor"/>
+    <circle cx="16.9" cy="7.2" r="1.35" fill="currentColor"/>
+    <path d="M14.35 6.45c1.35.45 2.55 1.25 3.45 2.3" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
   </svg>
 }
 
 function CIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <path d="M19 7.2a8.8 8.8 0 1 0 0 9.6" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
+    <path d="M18.4 7.2a7.8 7.8 0 1 0 0 9.6" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"/>
   </svg>
 }
 
 function CppIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <path d="M11.3 6.8a5.5 5.5 0 1 0 0 10.4" stroke="currentColor" strokeWidth="2.7" strokeLinecap="round"/>
-    <path d="M16.2 8.4v5.2M13.6 11h5.2M20.1 8.4v5.2M17.5 11h5.2" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
+    <path d="M10.7 6.8a5.5 5.5 0 1 0 0 10.4" stroke="currentColor" strokeWidth="2.65" strokeLinecap="round"/>
+    <path d="M15.2 9.3v4.5M13 11.55h4.5M19.3 9.3v4.5M17.05 11.55h4.5" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round"/>
   </svg>
 }
 
 function CSharpIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <path d="M15.9 7.1a5.2 5.2 0 1 0 0 9.8" stroke="currentColor" strokeWidth="2.7" strokeLinecap="round"/>
-    <path d="M17.1 9.3v5.4M14.4 12h5.4M19.2 9.3v5.4M16.5 12h5.4" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round"/>
+    <path d="M13.2 7.2a5.25 5.25 0 1 0 0 9.6" stroke="currentColor" strokeWidth="2.65" strokeLinecap="round"/>
+    <path d="M16.15 9.5v4.2M14.05 11.6h4.2M20.05 9.5v4.2M17.95 11.6h4.2" stroke="currentColor" strokeWidth="1.05" strokeLinecap="round"/>
   </svg>
 }
 
 function PhpIcon(p: SVGProps<SVGSVGElement>) {
   return <svg viewBox="0 0 24 24" fill="none" {...p}>
-    <ellipse cx="12" cy="12" rx="9.8" ry="6.2" stroke="currentColor" strokeWidth="1.45"/>
-    <text x="12" y="14.05" textAnchor="middle" fontSize="6.1" fontWeight="800" fontFamily="Arial, sans-serif" letterSpacing="-0.35" fill="currentColor">PHP</text>
+    <ellipse cx="12" cy="12" rx="9.65" ry="5.95" stroke="currentColor" strokeWidth="1.35"/>
+    <text x="8.15" y="13.8" textAnchor="middle" fontSize="5.1" fontWeight="800" fontFamily="Arial,sans-serif" fill="currentColor">P</text>
+    <text x="12" y="13.8" textAnchor="middle" fontSize="5.1" fontWeight="800" fontFamily="Arial,sans-serif" fill="currentColor">H</text>
+    <text x="15.85" y="13.8" textAnchor="middle" fontSize="5.1" fontWeight="800" fontFamily="Arial,sans-serif" fill="currentColor">P</text>
+  </svg>
+}
+
+function PythonIcon(p: SVGProps<SVGSVGElement>) {
+  return <svg viewBox="0 0 24 24" fill="none" {...p}>
+    <path
+      d="M12 2.4c-3.25 0-3.7 1.48-3.7 3.35v2.2h3.78v.75H6.92c-2.15 0-3.55 1.25-4.18 3.45-.78 2.7-.12 4.85 2.18 4.85h2.02v-2.2c0-2.25 1.78-4.02 4.03-4.02h4.05c2.05 0 3.66-1.6 3.66-3.62V6.02c0-2.02-1.61-3.62-3.66-3.62H12z"
+      fill="currentColor"
+    />
+    <circle cx="10.15" cy="5.55" r="0.72" fill="var(--tech-icon-bg,#080808)"/>
+    <path
+      d="M12 21.6c3.25 0 3.7-1.48 3.7-3.35v-2.2h-3.78v-.75h5.16c2.15 0 3.55-1.25 4.18-3.45.78-2.7.12-4.85-2.18-4.85h-2.02v2.2c0 2.25-1.78 4.02-4.03 4.02H8.98c-2.05 0-3.66 1.6-3.66 3.62v1.14c0 2.02 1.61 3.62 3.66 3.62H12z"
+      fill="currentColor"
+    />
+    <circle cx="13.85" cy="18.45" r="0.72" fill="var(--tech-icon-bg,#080808)"/>
   </svg>
 }
 
