@@ -58,11 +58,15 @@ function GithubIcon(p: SVGProps<SVGSVGElement>) {
 }
 
 function LuaIcon(p: SVGProps<SVGSVGElement>) {
-  // Lua logo: large filled circle with crescent cutout + small satellite circle top-right
+  // Big filled circle + white circle cutout inside (top-right) + small satellite circle outside
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-      <path d="M11.5 2a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19zm3.2 2.6a7.3 7.3 0 0 1 0 13.8 9.5 9.5 0 0 1 0-13.8z"/>
-      <circle cx="20.5" cy="3.5" r="2.5"/>
+    <svg viewBox="0 0 24 24" {...p}>
+      {/* Main large circle */}
+      <circle cx="11" cy="13" r="9.5" fill="currentColor"/>
+      {/* White hole cutout inside top-right of main circle */}
+      <circle cx="14.5" cy="9" r="3" fill="var(--tech-icon-bg,#080808)"/>
+      {/* Small satellite circle outside top-right */}
+      <circle cx="21.5" cy="2.5" r="2.5" fill="currentColor"/>
     </svg>
   )
 }
