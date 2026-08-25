@@ -116,6 +116,17 @@ function PhpIcon(p: SVGProps<SVGSVGElement>) {
   )
 }
 
+function PythonIcon(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
+      <path d="M12 2c-2.8 0-5 .9-5 3.2V8h5v1H5.8C3.2 9 2 10.4 2 13c0 2.5 1.2 4 3.8 4H7v-2.2C7 12.6 8.2 12 10 12h4c2 0 3-1.1 3-3.2V5.2C17 2.9 14.8 2 12 2z"/>
+      <circle cx="9.8" cy="5.2" r="1.1" fill="var(--tech-icon-bg,#080808)"/>
+      <path d="M12 22c2.8 0 5-.9 5-3.2V16h-5v-1h6.2c2.6 0 3.8-1.4 3.8-4 0-2.5-1.2-4-3.8-4H17v2.2c0 2.2-1.2 2.8-3 2.8h-4c-2 0-3 1.1-3 3.2v3.6C7 21.1 9.2 22 12 22z"/>
+      <circle cx="14.2" cy="18.8" r="1.1" fill="var(--tech-icon-bg,#080808)"/>
+    </svg>
+  )
+}
+
 function JavaIcon(p: SVGProps<SVGSVGElement>) { return <LetterIcon letter="JAVA" {...p}/> }
 
 function KotlinIcon(p: SVGProps<SVGSVGElement>) {
