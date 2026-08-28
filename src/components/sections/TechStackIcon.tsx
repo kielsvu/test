@@ -96,11 +96,11 @@ function CppIcon(p: SVGProps<SVGSVGElement>) {
 function CSharpIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" {...p}>
-      <path d="M10.9 7.25a5.35 5.35 0 1 0 0 9.5" strokeWidth="2.45"/>
-      <line x1="14.45" y1="10.65" x2="19.55" y2="10.65" strokeWidth="0.95"/>
-      <line x1="14.15" y1="13.15" x2="19.25" y2="13.15" strokeWidth="0.95"/>
-      <line x1="15.65" y1="8.7" x2="14.85" y2="15.1" strokeWidth="0.95"/>
-      <line x1="18.35" y1="8.7" x2="17.55" y2="15.1" strokeWidth="0.95"/>
+      <path d="M13 8.5A5.5 5.5 0 1 0 13 15.5" strokeWidth="2.2"/>
+      <line x1="14"   y1="9.2"  x2="20"   y2="9.2"  strokeWidth="1.35"/>
+      <line x1="14"   y1="13.8" x2="20"   y2="13.8" strokeWidth="1.35"/>
+      <line x1="15.8" y1="7.2"  x2="15.8" y2="15.8" strokeWidth="1.35"/>
+      <line x1="18.7" y1="7.2"  x2="18.7" y2="15.8" strokeWidth="1.35"/>
     </svg>
   )
 }
@@ -108,19 +108,22 @@ function CSharpIcon(p: SVGProps<SVGSVGElement>) {
 function PhpIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <ellipse cx="12" cy="12" rx="10.5" ry="5.8" strokeWidth="1.3"/>
-      <path d="M5.05 14.35V9.65h1.35a1.3 1.3 0 1 1 0 2.6H5.05" strokeWidth="1.1"/>
-      <path d="M8.95 14.35V9.65M8.95 12h2.35M11.3 9.65v4.7" strokeWidth="1.1"/>
-      <path d="M14.15 14.35V9.65h1.35a1.3 1.3 0 1 1 0 2.6h-1.35" strokeWidth="1.1"/>
+      <ellipse cx="12" cy="12" rx="10.2" ry="5.7" strokeWidth="1.25"/>
+      <path d="M5.0 14.55V9.45h1.45a1.45 1.45 0 1 1 0 2.9H5.0" strokeWidth="1.08"/>
+      <path d="M8.75 14.55V9.45M8.75 12h2.55M11.3 9.45v5.1" strokeWidth="1.08"/>
+      <path d="M13.85 14.55V9.45h1.45a1.45 1.45 0 1 1 0 2.9h-1.45" strokeWidth="1.08"/>
     </svg>
   )
 }
 
 function PythonIcon(p: SVGProps<SVGSVGElement>) {
+  // Python logo: two interlocked P-shaped snakes with eye dots
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
+      {/* Top snake — head faces right */}
       <path d="M12 2c-2.8 0-5 .9-5 3.2V8h5v1H5.8C3.2 9 2 10.4 2 13c0 2.5 1.2 4 3.8 4H7v-2.2C7 12.6 8.2 12 10 12h4c2 0 3-1.1 3-3.2V5.2C17 2.9 14.8 2 12 2z"/>
       <circle cx="9.8" cy="5.2" r="1.1" fill="var(--tech-icon-bg,#080808)"/>
+      {/* Bottom snake — head faces left */}
       <path d="M12 22c2.8 0 5-.9 5-3.2V16h-5v-1h6.2c2.6 0 3.8-1.4 3.8-4 0-2.5-1.2-4-3.8-4H17v2.2c0 2.2-1.2 2.8-3 2.8h-4c-2 0-3 1.1-3 3.2v3.6C7 21.1 9.2 22 12 22z"/>
       <circle cx="14.2" cy="18.8" r="1.1" fill="var(--tech-icon-bg,#080808)"/>
     </svg>
@@ -132,9 +135,9 @@ function JavaIcon(p: SVGProps<SVGSVGElement>) { return <LetterIcon letter="JAVA"
 function KotlinIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-      <path d="M3.5 3.5h7.8L3.5 11.3V3.5Z"/>
-      <path d="M3.5 13.05 13.05 3.5h7.45l-17 17v-7.45Z"/>
-      <path d="M10.55 13.05 14.1 9.5 21 16.4V20.5h-7.45l-3-3v-4.45Z"/>
+      <path d="M3.25 3.25h17.5L3.25 20.75V3.25Z"/>
+      <path d="M3.25 12.05 12.05 3.25h8.7L3.25 20.75v-8.7Z"/>
+      <path d="M12.05 12.05 15.35 8.75 20.75 14.15v6.6h-6.6l-2.1-2.1v-6.6Z"/>
     </svg>
   )
 }
