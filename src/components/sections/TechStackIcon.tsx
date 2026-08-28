@@ -96,11 +96,11 @@ function CppIcon(p: SVGProps<SVGSVGElement>) {
 function CSharpIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" {...p}>
-      <path d="M12 8A5 5 0 1 0 12 16" strokeWidth="2.4"/>
-      <line x1="13.5" y1="9"    x2="19.5" y2="9"    strokeWidth="1.4"/>
-      <line x1="13.5" y1="14"   x2="19.5" y2="14"   strokeWidth="1.4"/>
-      <line x1="15.5" y1="6.5"  x2="15.5" y2="16.5" strokeWidth="1.4"/>
-      <line x1="18.5" y1="6.5"  x2="18.5" y2="16.5" strokeWidth="1.4"/>
+      <path d="M13 8.5A5.5 5.5 0 1 0 13 15.5" strokeWidth="2.2"/>
+      <line x1="14"   y1="9.2"  x2="20"   y2="9.2"  strokeWidth="1.35"/>
+      <line x1="14"   y1="13.8" x2="20"   y2="13.8" strokeWidth="1.35"/>
+      <line x1="15.8" y1="7.2"  x2="15.8" y2="15.8" strokeWidth="1.35"/>
+      <line x1="18.7" y1="7.2"  x2="18.7" y2="15.8" strokeWidth="1.35"/>
     </svg>
   )
 }
@@ -108,11 +108,11 @@ function CSharpIcon(p: SVGProps<SVGSVGElement>) {
 function PhpIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" {...p}>
-      <ellipse cx="12" cy="12" rx="10.25" ry="5.55" strokeWidth="1.35"/>
-      <g transform="translate(0.45 0)">
-        <path d="M4.6 14.5V9.5h1.65c1.1 0 1.7.58 1.7 1.5s-.6 1.5-1.7 1.5H4.6" strokeWidth="1.15"/>
-        <path d="M9.35 9.5v5M9.35 12h3M12.35 9.5v5" strokeWidth="1.15"/>
-        <path d="M14.85 14.5V9.5h1.65c1.1 0 1.7.58 1.7 1.5s-.6 1.5-1.7 1.5h-1.65" strokeWidth="1.15"/>
+      <ellipse cx="12" cy="12" rx="10.5" ry="5.8" strokeWidth="1.3"/>
+      <g transform="translate(1.3 0)">
+        <path d="M4.2 14.5V9.5h1.5a1.4 1.4 0 0 1 0 2.8H4.2" strokeWidth="1.15"/>
+        <path d="M9 9.5v5M9 12h2.8M11.8 9.5v5" strokeWidth="1.15"/>
+        <path d="M14.3 14.5V9.5h1.5a1.4 1.4 0 0 1 0 2.8H14.3" strokeWidth="1.15"/>
       </g>
     </svg>
   )
@@ -135,10 +135,9 @@ function PythonIcon(p: SVGProps<SVGSVGElement>) {
 function JavaIcon(p: SVGProps<SVGSVGElement>) { return <LetterIcon letter="JAVA" {...p}/> }
 
 function KotlinIcon(p: SVGProps<SVGSVGElement>) {
-  // Kotlin mark: solid angular K geometry with the lower section fully closed.
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-      <path d="M1.3 24 12.6 12.5 24 24H1.3ZM0 0h12L0 12.5V0ZM13.4 0 0 14v10l12-12L24 0H13.4Z"/>
+      <path d="M0 0h13.5L0 13.5zm0 24V10.5L10.5 24zm1.5-1.5 12-12H24zm12-12L24 0v13.5z"/>
     </svg>
   )
 }
