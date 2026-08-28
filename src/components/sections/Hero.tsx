@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import HeroVisual from "@/components/HeroVisual";
 import TextType from "@/components/band/TextType";
+import IDCard from "@/components/band/App";
 
 const skills = ["TypeScript", "React.js", "Tailwind"];
 
