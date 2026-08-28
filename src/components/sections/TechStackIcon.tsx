@@ -96,11 +96,11 @@ function CppIcon(p: SVGProps<SVGSVGElement>) {
 function CSharpIcon(p: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" {...p}>
-      <path d="M13 8.5A5.5 5.5 0 1 0 13 15.5" strokeWidth="2.2"/>
-      <line x1="14"   y1="9.2"  x2="20"   y2="9.2"  strokeWidth="1.35"/>
-      <line x1="14"   y1="13.8" x2="20"   y2="13.8" strokeWidth="1.35"/>
-      <line x1="15.8" y1="7.2"  x2="15.8" y2="15.8" strokeWidth="1.35"/>
-      <line x1="18.7" y1="7.2"  x2="18.7" y2="15.8" strokeWidth="1.35"/>
+      <path d="M12 8A5 5 0 1 0 12 16" strokeWidth="2.4"/>
+      <line x1="13.5" y1="9"    x2="19.5" y2="9"    strokeWidth="1.4"/>
+      <line x1="13.5" y1="14"   x2="19.5" y2="14"   strokeWidth="1.4"/>
+      <line x1="15.5" y1="6.5"  x2="15.5" y2="16.5" strokeWidth="1.4"/>
+      <line x1="18.5" y1="6.5"  x2="18.5" y2="16.5" strokeWidth="1.4"/>
     </svg>
   )
 }
@@ -135,9 +135,10 @@ function PythonIcon(p: SVGProps<SVGSVGElement>) {
 function JavaIcon(p: SVGProps<SVGSVGElement>) { return <LetterIcon letter="JAVA" {...p}/> }
 
 function KotlinIcon(p: SVGProps<SVGSVGElement>) {
+  // Kotlin mark: solid angular K geometry with the lower section fully closed.
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-      <path d="M0 0h13.5L0 13.5zm0 24V10.5L10.5 24zm1.5-1.5 12-12H24zm12-12L24 0v13.5z"/>
+      <path d="M1.3 24 12.6 12.5 24 24H1.3ZM0 0h12L0 12.5V0ZM13.4 0 0 14v10l12-12L24 0H13.4Z"/>
     </svg>
   )
 }
