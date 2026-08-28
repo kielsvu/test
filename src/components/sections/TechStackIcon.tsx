@@ -107,13 +107,13 @@ function CSharpIcon(p: SVGProps<SVGSVGElement>) {
 
 function PhpIcon(p: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" {...p}>
-      <ellipse cx="12" cy="12" rx="10.5" ry="5.5" strokeWidth="1.4"/>
-      <path d="M4.5 14.5V9.5h1.8c1.1 0 1.7.6 1.7 1.5S7.4 12.5 6.3 12.5H4.5" strokeWidth="1.2"/>
-      <line x1="9.5"  y1="9.5" x2="9.5"  y2="14.5" strokeWidth="1.2"/>
-      <line x1="9.5"  y1="12"  x2="12.5" y2="12"    strokeWidth="1.2"/>
-      <line x1="12.5" y1="9.5" x2="12.5" y2="14.5"  strokeWidth="1.2"/>
-      <path d="M15 14.5V9.5h1.8c1.1 0 1.7.6 1.7 1.5s-.6 1.5-1.7 1.5H15" strokeWidth="1.2"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <ellipse cx="12" cy="12" rx="10.25" ry="5.55" strokeWidth="1.35"/>
+      <g transform="translate(0.45 0)">
+        <path d="M4.6 14.5V9.5h1.65c1.1 0 1.7.58 1.7 1.5s-.6 1.5-1.7 1.5H4.6" strokeWidth="1.15"/>
+        <path d="M9.35 9.5v5M9.35 12h3M12.35 9.5v5" strokeWidth="1.15"/>
+        <path d="M14.85 14.5V9.5h1.65c1.1 0 1.7.58 1.7 1.5s-.6 1.5-1.7 1.5h-1.65" strokeWidth="1.15"/>
+      </g>
     </svg>
   )
 }
@@ -135,12 +135,10 @@ function PythonIcon(p: SVGProps<SVGSVGElement>) {
 function JavaIcon(p: SVGProps<SVGSVGElement>) { return <LetterIcon letter="JAVA" {...p}/> }
 
 function KotlinIcon(p: SVGProps<SVGSVGElement>) {
-  // Kotlin mark: three solid angular sections forming the official K silhouette.
+  // Kotlin mark: solid angular K geometry with the lower section fully closed.
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...p}>
-      <path d="M3 3h9L3 12V3Z"/>
-      <path d="M3 12 12 3h9L3 21v-9Z"/>
-      <path d="m12 12 9 9h-9l-4.5-4.5L12 12Z"/>
+      <path d="M1.3 24 12.6 12.5 24 24H1.3ZM0 0h12L0 12.5V0ZM13.4 0 0 14v10l12-12L24 0H13.4Z"/>
     </svg>
   )
 }
