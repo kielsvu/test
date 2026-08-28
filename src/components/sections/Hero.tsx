@@ -61,6 +61,7 @@ export default function Hero({ showApp }: HeroProps) {
         }}
       >
         {showApp && <HeroVisual />}
+        {showApp && <IDCard />}
       </div>
 
       <div
