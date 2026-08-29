@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import HeroVisual from "@/components/HeroVisual";
 import TextType from "@/components/band/TextType";
-import IDCard from "@/components/band/App";
+import App from "@/components/band/App";
 
 const skills = ["TypeScript", "React.js", "Tailwind"];
 
@@ -60,8 +59,7 @@ export default function Hero({ showApp }: HeroProps) {
           pointerEvents: showApp ? "auto" : "none",
         }}
       >
-        {showApp && <HeroVisual />}
-        {showApp && <IDCard />}
+        {showApp && <App />}
       </div>
 
       <div
