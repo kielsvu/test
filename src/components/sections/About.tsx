@@ -152,8 +152,8 @@ export default function About() {
                   color: "var(--text-primary)",
                 }}
               >
-                <div>Agustin</div>
-                <div>Jhoner</div>
+                <div>Jhner</div>
+                <div>Torres</div>
               </div>
             </motion.div>
 
