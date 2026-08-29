@@ -143,6 +143,15 @@ function KotlinIcon(p: SVGProps<SVGSVGElement>) {
   )
 }
 
+function AssemblyIcon(p: SVGProps<SVGSVGElement>) {
+  return <svg viewBox="0 0 24 24" fill="none" {...p}>
+    <path d="M7 4.5h10M5.5 7v10M18.5 7v10M7 19.5h10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+    <path d="M7 7h10v10H7z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+    <path d="M9 10h6M9 12h6M9 14h4.2" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round"/>
+    <path d="M4 8v2M4 14v2M20 8v2M20 14v2M8 4v-1M12 4v-1M16 4v-1M8 20v1M12 20v1M16 20v1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+  </svg>
+}
+
 export default function TechStackIcon({ name, ...props }: Props) {
   const key = name.toLowerCase()
   if (key === 'react') return <ReactIcon {...props} />
@@ -166,5 +175,6 @@ export default function TechStackIcon({ name, ...props }: Props) {
   if (key === 'python') return <PythonIcon {...props} />
   if (key === 'java') return <JavaIcon {...props} />
   if (key === 'kotlin') return <KotlinIcon {...props} />
+  if (key === 'assembly' || key === 'asm') return <AssemblyIcon {...props} />
   return null
 }
