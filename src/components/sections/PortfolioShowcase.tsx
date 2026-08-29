@@ -321,7 +321,7 @@ export default function PortfolioShowcase() {
             {/* TECH STACK */}
             {activeTab === 'techstack' && (
               <div className="min-h-[360px] flex justify-center">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
+                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full"">
                   {!loading &&
                     techStacks?.map((item, index) => (
                       <motion.div
