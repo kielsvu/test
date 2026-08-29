@@ -50,12 +50,12 @@ export default function ContactForm() {
         transition={{ delay: 0.05 }}
       >
         <h2 className="text-2xl md:text-3xl font-bold mb-3">
-          Hubungi Saya
+          Contact Me
         </h2>
 
         <p className="text-sm text-white/50 mb-7">
-          Feel free to reach out if you want to collaborate,
-          discuss ideas, or simply say hello.
+          I’m always open to discussing new projects,
+          collaboration opportunities, and ideas. Feel free to get in touch.
         </p>
       </motion.div>
 
