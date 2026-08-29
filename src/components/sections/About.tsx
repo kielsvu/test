@@ -89,7 +89,7 @@ export default function About() {
     },
     {
       icon: <Code size={16} />,
-      value: "8",
+      value: "23",
       title: "TECH STACK",
     },
     {
