@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Code, Globe, ArrowUpRight } from "lucide-react";
-
+import Image from "next/image";
 
 
 const container: Variants = {
@@ -53,7 +53,6 @@ const pop: Variants = {
     },
   },
 };
-
 
 
 export default function About() {
@@ -277,17 +276,19 @@ export default function About() {
                   boxShadow: "0 30px 90px rgba(255,255,255,0.05)",
                 }}
               >
-                <span
+                <Image
+                  src="/assets/PP.png"
+                  alt="AJ"
+                  width={264}
+                  height={264}
+                  priority
                   style={{
-                    fontFamily: "'DM Mono', monospace",
-                    fontSize: 54,
-                    fontWeight: 700,
-                    letterSpacing: "-0.08em",
-                    color: "var(--text-primary)",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: "50%",
                   }}
-                >
-                  AJ
-                </span>
+                />
               </div>
             </motion.div>
         </div>
