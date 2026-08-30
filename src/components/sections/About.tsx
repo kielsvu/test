@@ -177,7 +177,7 @@ export default function About() {
                 maxWidth: isMobile ? "100%" : "490px",
               }}
             >
-              Computer programming student focused on frontend development, modern UI, and responsive web experiences. I enjoy turning ideas into clean, functional, and polished digital products.
+              I’m a senior high school programming student with a strong interest in frontend development and modern web design. I’m continuously developing my skills through hands-on projects and enjoy creating responsive, functional, and well-structured websites.
             </motion.p>
 
             {}
@@ -205,8 +205,7 @@ export default function About() {
                 width: "fit-content",
               }}
             >
-              “Turning ideas into clean, modern, and meaningful digital
-              experiences.”
+              “Turning ideas into clean, practical and modern website.”
             </motion.div>
 
             <motion.div
