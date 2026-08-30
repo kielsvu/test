@@ -190,7 +190,7 @@ export default function Hero({ showApp }: HeroProps) {
               textWrap: "pretty",
             }}
           >
-            I build modern, responsive websites with clean interfaces and thoughtful interactions, turning ideas into practical digital experiences.
+            I create responsive web interfaces focused on usability, performance and a polished user experience.
           </p>
         </motion.div>
 
