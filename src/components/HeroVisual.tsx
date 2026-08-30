@@ -12,13 +12,16 @@ export default function HeroVisual() {
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       >
         <Image
-          src="/assets/PP.png"
-          alt="AJ"
-          fill
-          priority
-          sizes="224px"
-          className="object-cover"
-        />
+  src="/assets/PP.png"
+  alt="JH"
+  fill
+  priority
+  sizes="224px"
+  draggable={false}
+  onContextMenu={(e) => e.preventDefault()}
+  onDragStart={(e) => e.preventDefault()}
+  className="object-cover"
+          />
       </motion.div>
 
       <motion.div
