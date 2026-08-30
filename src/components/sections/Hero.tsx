@@ -114,7 +114,7 @@ export default function Hero({ showApp }: HeroProps) {
               marginBottom: 0,
             }}
           >
-            Frontend
+            Full-Stack
           </motion.h1>
 
           <motion.h1
