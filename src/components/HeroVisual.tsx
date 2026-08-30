@@ -5,23 +5,36 @@ import Image from "next/image"
 
 export default function HeroVisual() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
       <motion.div
         className="absolute right-[8%] top-[18%] h-56 w-56 rounded-full overflow-hidden border border-white/10 bg-white/[0.025] blur-[1px]"
         animate={{ y: [0, -18, 0], rotate: [0, 8, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       >
-        <Image
-  src="/assets/PP.png"
-  alt="JH"
-  fill
-  priority
-  sizes="224px"
-  draggable={false}
-  onContextMenu={(e) => e.preventDefault()}
-  onDragStart={(e) => e.preventDefault()}
-  className="object-cover"
+        <div
+          onContextMenu={(e) => e.preventDefault()}
+          onDragStart={(e) => e.preventDefault()}
+          onSelect={(e) => e.preventDefault()}
+          style={{
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            WebkitTouchCallout: "none",
+            WebkitUserDrag: "none",
+            touchAction: "none",
+          }}
+        >
+          <Image
+            src="/assets/PP.png"
+            alt="JH"
+            fill
+            priority
+            sizes="224px"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+            className="object-cover select-none"
           />
+        </div>
       </motion.div>
 
       <motion.div
