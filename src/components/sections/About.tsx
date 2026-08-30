@@ -275,19 +275,35 @@ export default function About() {
                   boxShadow: "0 30px 90px rgba(255,255,255,0.05)",
                 }}
               >
-                <Image
-                  src="/assets/PP.png"
-                  alt="AJ"
-                  width={264}
-                  height={264}
-                  priority
+                <div
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
+                  onSelect={(e) => e.preventDefault()}
                   style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    borderRadius: "50%",
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    WebkitTouchCallout: "none",
+                    touchAction: "none",
                   }}
-                />
+                >
+                  <Image
+                    src="/assets/PP.png"
+                    alt="AJ"
+                    width={264}
+                    height={264}
+                    priority
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
+                    onDragStart={(e) => e.preventDefault()}
+                    className="select-none"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </div>
               </div>
             </motion.div>
         </div>
