@@ -19,7 +19,6 @@ export default function HeroVisual() {
             userSelect: "none",
             WebkitUserSelect: "none",
             WebkitTouchCallout: "none",
-            WebkitUserDrag: "none",
             touchAction: "none",
           }}
         >
