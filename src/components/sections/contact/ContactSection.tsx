@@ -82,7 +82,7 @@ export default function ContactSection() {
       </div>
  {}
 <div className="mt-20 text-center text-xs text-white/35">
-  © 2026 Agustin Jhoner — All rights reserved.
+  © 2025 Jhner.dev — All rights reserved.
 </div>
     </section>
   )
