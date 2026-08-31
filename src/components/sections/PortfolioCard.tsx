@@ -6,7 +6,6 @@ import { ArrowUpRight } from 'lucide-react'
 type Props = {
   title: string
   description: string
-  index: number
   id?: string
   image?: string
   live_url?: string
@@ -15,29 +14,14 @@ type Props = {
 export default function PortfolioCard({
   title,
   description,
-  index,
   id,
   image,
   live_url,
 }: Props) {
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        x: index % 2 === 0 ? -50 : 50,
-        y: 20,
-      }}
-      whileInView={{
-        opacity: 1,
-        x: 0,
-        y: 0,
-      }}
-      transition={{
-        duration: 0.75,
-        delay: index * 0.06,
-      }}
       whileHover={{ y: -4 }}
-      className="group relative rounded-[26px] border border-white/10 bg-white/5 p-4 backdrop-blur-xl flex flex-col min-h-[270px]"
+      className="group relative rounded-[26px] border border-white/10 bg-white/5 p-4 flex flex-col min-h-[270px]"
     >
       <div className="w-full h-36 rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] mb-3">
         {image ? (

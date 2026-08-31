@@ -74,8 +74,8 @@ export default function Hero({ showApp }: HeroProps) {
           initial={false}
           animate={
             startAnim
-              ? { opacity: 1, y: 0, filter: "blur(0px)" }
-              : { opacity: 0, y: 30, filter: "blur(12px)" }
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 30 }
           }
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ marginBottom: 20 }}
