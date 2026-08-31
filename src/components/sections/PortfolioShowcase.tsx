@@ -21,7 +21,7 @@ const tabContentVariants = {
   exit: { opacity: 0, y: -15 },
 }
 
-const tabContentTransition = { duration: 0.45 }
+const tabContentTransition = { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
 
 const cardVariants = {
   initial: { opacity: 0, y: 40 },
@@ -171,7 +171,7 @@ export default function PortfolioShowcase() {
               so the frosted look is preserved without a GPU compositing layer.
         */}
         <div className="flex justify-center mb-10">
-          <div className="w-full max-w-3xl rounded-full border border-white/10 bg-white/8 p-2 flex gap-2">
+          <div className="w-full max-w-3xl rounded-full border border-white/10 bg-white/8 backdrop-blur-sm p-2 flex gap-2">
             {TABS.map((tab) => (
               <button
                 key={tab}
