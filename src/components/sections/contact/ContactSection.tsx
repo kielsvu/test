@@ -33,13 +33,9 @@ export default function ContactSection() {
   <motion.h1
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
-    animate={{
-      y: [0, -10, 0],
-    }}
     transition={{
-      duration: 4,
-      repeat: Infinity,
-      ease: 'easeInOut',
+      duration: 0.8,
+      ease: smoothEase,
     }}
     viewport={{ once: false }}
     className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4"
@@ -50,13 +46,10 @@ export default function ContactSection() {
   <motion.p
     initial={{ opacity: 0, y: 35 }}
     whileInView={{ opacity: 1, y: 0 }}
-    animate={{
-      y: [0, -5, 0],
-    }}
     transition={{
-      duration: 4.4,
-      repeat: Infinity,
-      ease: 'easeInOut',
+      duration: 0.8,
+      delay: 0.1,
+      ease: smoothEase,
     }}
     viewport={{ once: false }}
     className="text-white/60 text-sm sm:text-base max-w-xl sm:max-w-2xl mx-auto leading-relaxed"
