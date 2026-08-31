@@ -207,7 +207,7 @@ export default function PortfolioShowcase() {
                   The grid reflow still looks smooth because the child cards
                   animate in/out with opacity+scale+y.
                 */}
-                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1 backdrop-blur-sm">
                   <AnimatePresence mode="popLayout">
                     {!loading &&
                       displayedProjects.map((item, i) => (
@@ -283,7 +283,7 @@ export default function PortfolioShowcase() {
                   are released after first trigger.
             */}
             {activeTab === 'certificates' && (
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1 backdrop-blur-sm">
                 {!loading &&
                   certificates.map((item, i) => (
                     <motion.div
@@ -325,7 +325,7 @@ export default function PortfolioShowcase() {
             */}
             {activeTab === 'techstack' && (
               <div className="min-h-[360px] flex justify-center">
-                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
+                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full backdrop-blur-sm">
                   {!loading &&
                     techStacks?.map((item, index) => (
                       <TechCard key={item.id} item={item} index={index} />
