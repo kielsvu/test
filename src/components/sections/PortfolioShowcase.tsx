@@ -21,7 +21,7 @@ const tabContentVariants = {
   exit: { opacity: 0, y: -15 },
 }
 
-const tabContentTransition = { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+const tabContentTransition = { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }
 
 const cardVariants = {
   initial: { opacity: 0, y: 40 },
