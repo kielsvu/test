@@ -225,7 +225,6 @@ export default function PortfolioShowcase() {
                           }}
                         >
                           <PortfolioCard
-                            index={i}
                             title={item.title}
                             description={item.description}
                             image={item.image_url}
