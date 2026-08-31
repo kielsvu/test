@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -47,6 +47,7 @@ export default function Navbar() {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+
   useEffect(() => {
     const navbarPlayed = sessionStorage.getItem('navbarPlayed')
 
@@ -197,9 +198,7 @@ export default function Navbar() {
                       width: '100%',
                       height: 1,
                       background: 'white',
-                      transform: isActive
-                        ? 'scaleX(1)'
-                        : 'scaleX(0)',
+                      transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
                       transformOrigin: 'left',
                       transition: 'transform 0.25s ease',
                     }}
@@ -227,45 +226,48 @@ export default function Navbar() {
         )}
       </div>
 
-      {isMobile && open && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          style={{
-            marginTop: 10,
-            borderRadius: 16,
-            background: 'rgba(13,13,13,0.9)',
-            border: '1px solid var(--border)',
-            backdropFilter: 'blur(12px)',
-            padding: 20,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 18,
-          }}
-        >
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id
+      <AnimatePresence>
+        {isMobile && open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              marginTop: 10,
+              borderRadius: 16,
+              background: 'rgba(13,13,13,0.9)',
+              border: '1px solid var(--border)',
+              backdropFilter: 'blur(12px)',
+              padding: 20,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 18,
+            }}
+          >
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id
 
-            return (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(e) => smoothScrollTo(e, `#${item.id}`)}
-                style={{
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: 13,
-                  color: isActive
-                    ? 'var(--text-primary)'
-                    : 'var(--text-secondary)',
-                }}
-              >
-                {item.label}
-              </a>
-            )
-          })}
-        </motion.div>
-      )}
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => smoothScrollTo(e, `#${item.id}`)}
+                  style={{
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: 13,
+                    color: isActive
+                      ? 'var(--text-primary)'
+                      : 'var(--text-secondary)',
+                  }}
+                >
+                  {item.label}
+                </a>
+              )
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   )
 }
