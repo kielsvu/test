@@ -10,6 +10,7 @@ import {
 import usePortfolio from '@/hooks/usePortfolio'
 import PortfolioCard from './PortfolioCard'
 import TechStackIcon from './TechStackIcon'
+import TechStackLoop from '@/components/TechStackLoop'
 
 const smoothEase: [number, number, number, number] = [
   0.22,
@@ -320,46 +321,8 @@ export default function PortfolioShowcase() {
 
             {/* TECH STACK */}
             {activeTab === 'techstack' && (
-              <div className="min-h-[360px] flex justify-center">
-                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
-                  {!loading &&
-                    techStacks?.map((item, index) => (
-                      <motion.div
-                        key={item.id}
-                        initial={{
-                          opacity: 0,
-                          scale: 0.9,
-                          y: 20,
-                        }}
-                        whileInView={{
-                          opacity: 1,
-                          scale: 1,
-                          y: 0,
-                        }}
-                        transition={{
-                          duration: 0.45,
-                          delay: index * 0.04,
-                        }}
-                        whileHover={{
-                          y: -5,
-                          scale: 1.04,
-                        }}
-                        className="group rounded-[24px] border border-white/10 bg-white/[0.04] backdrop-blur-xl flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
-                      >
-                        <div className="relative flex items-center justify-center [--tech-icon-bg:#080808]">
-                          <div className="absolute w-[70px] h-[70px] rounded-full bg-white/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500" />
-                          <TechStackIcon
-                            name={item.logo_key || item.name}
-                            className="relative z-10 w-[56px] h-[56px] text-white"
-                            aria-label={item.name}
-                          />
-                        </div>
-                        <p className="text-[11px] text-white/80 text-center leading-tight px-2 line-clamp-1">
-                          {item.name}
-                        </p>
-                      </motion.div>
-                    ))}
-                </div>
+              <div className="min-h-[360px] flex items-center justify-center overflow-hidden">
+                <TechStackLoop />
               </div>
             )}
           </motion.div>
