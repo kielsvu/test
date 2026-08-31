@@ -24,19 +24,19 @@ const tabContentVariants = {
 const tabContentTransition = { duration: 0.45 }
 
 const cardVariants = {
-  initial: { opacity: 0, y: 40, scale: 0.96 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: -30, scale: 0.95 },
+  initial: { opacity: 0, y: 40 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
 }
 
 const certVariants = {
-  initial: { opacity: 0, y: 25, scale: 0.96 },
-  animate: { opacity: 1, y: 0, scale: 1 },
+  initial: { opacity: 0, y: 25 },
+  animate: { opacity: 1, y: 0 },
 }
 
 const techVariants = {
-  initial: { opacity: 0, scale: 0.9, y: 20 },
-  animate: { opacity: 1, scale: 1, y: 0 },
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
 }
 
 const previewOverlayVariants = {
@@ -46,9 +46,9 @@ const previewOverlayVariants = {
 }
 
 const previewImgVariants = {
-  initial: { scale: 0.92, opacity: 0 },
-  animate: { scale: 1, opacity: 1 },
-  exit: { scale: 0.92, opacity: 0 },
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 12 },
 }
 
 const previewImgTransition = { duration: 0.35 }
@@ -281,7 +281,6 @@ export default function PortfolioShowcase() {
                   compensate for no blur — visually the same dark frosted look.
                 — whileInView kept but viewport once:true added so observers
                   are released after first trigger.
-                — group-hover:scale-105 on img kept (only 1 element animates at a time).
             */}
             {activeTab === 'certificates' && (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
@@ -296,7 +295,7 @@ export default function PortfolioShowcase() {
                       transition={{ duration: 0.5, delay: i * 0.04 }}
                       whileHover={{ y: -4 }}
                       onClick={() => openPreview(item.image_url)}
-                      className="group cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.06] p-4"
+                      className="cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.06] p-4"
                     >
                       <div className="rounded-2xl overflow-hidden border border-white/10 h-56">
                         <img
@@ -304,7 +303,7 @@ export default function PortfolioShowcase() {
                           alt={item.title}
                           decoding="async"
                           loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <h3 className="mt-4 text-[15px] font-semibold text-center text-white/90">
@@ -360,7 +359,7 @@ function TechCard({
       whileInView="animate"
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.04 }}
-      whileHover={{ y: -5, scale: 1.04 }}
+      whileHover={{ y: -5 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
       className="group rounded-[24px] border border-white/10 bg-white/[0.04] flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
