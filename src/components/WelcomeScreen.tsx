@@ -91,7 +91,7 @@ export default function WelcomeScreen() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'rgba(255,255,255,0.05)',
+                background: 'rgba(255,255,255,0.06)',
               }}
             >
               <Icon size={18} color="white" />
@@ -116,6 +116,7 @@ export default function WelcomeScreen() {
               flexWrap: 'wrap',
             }}
           >
+            {}
             <motion.span
               initial={{ opacity: 0, x: 120 }}
               animate={{ opacity: 1, x: 0 }}
@@ -133,6 +134,7 @@ export default function WelcomeScreen() {
               Welcome
             </motion.span>
 
+            {}
             <motion.span
               initial={{ opacity: 0, x: -120 }}
               animate={{ opacity: 1, x: 0 }}
@@ -151,6 +153,7 @@ export default function WelcomeScreen() {
             </motion.span>
           </div>
 
+          {}
           <motion.h1
             initial={{ opacity: 0, y: 70 }}
             animate={{ opacity: 1, y: 0 }}
@@ -185,7 +188,7 @@ export default function WelcomeScreen() {
             padding: '6px 14px',
             borderRadius: '999px',
             border: '1px solid rgba(255,255,255,0.12)',
-            background: 'rgba(255,255,255,0.05)',
+            background: 'rgba(255,255,255,0.06)',
             fontSize: '12px',
             letterSpacing: '0.12em',
             color: 'rgba(255,255,255,0.7)',
