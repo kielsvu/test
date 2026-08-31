@@ -7,7 +7,7 @@ const PERSPECTIVE = 1300
 const DEFAULTS = {
   particleCount: 1000,
   particleSize: 3,
-  colors: ["#ffffff"],
+  colors: ["#B284FF", "#D6BEFF", "#FFFFFF"],
   outerRadius: 100,
   tilt: 20,
   tiltSideway: 160,
@@ -31,19 +31,14 @@ export default function BlackHole(props) {
   } = props
 
   const perspective = PERSPECTIVE
-  // particleSize 1–50 → 0.5–4.5px
   const particleSize = 0.5 + (Math.max(1, Math.min(50, particleSizeRaw ?? 20)) - 1) * (4 / 49)
   const pullSpeed = Math.max(0, pullSpeedRaw ?? 1) / 2
-  // trail 0 = no trail (clear fast), 50 = long trail (clear slow)
   const trailAlpha = Math.max(0.02, 1 - (Math.max(0, trailRaw ?? 40) / 50) * 0.98)
-  // No center sphere — voidRadius is just the respawn boundary, keep it tiny
   const voidRadius = 8
 
-  // Resolve disk outer radius from live canvas size
   const outerRadFromSize = useCallback(
     (w, h) => {
       const isMobile = w < 768
-      // Mobile: use screen diagonal so disk fills the full viewport
       const base = isMobile ? Math.sqrt(w * w + h * h) * 0.52 : w / 2
       const pct = Math.max(0, Math.min(100, outerRadius)) / 100
       return voidRadius + pct * (base - voidRadius)
@@ -51,7 +46,6 @@ export default function BlackHole(props) {
     [outerRadius]
   )
 
-  // Disk center: horizontally centered always; vertically centered on screen
   const resolveCenter = useCallback((w, h) => {
     return { cx: w * 0.5, cy: h * 0.5 }
   }, [])
@@ -60,32 +54,35 @@ export default function BlackHole(props) {
   const containerRef = useRef(null)
   const particlesRef = useRef([])
   const animRef = useRef(0)
-  // Init with 0 so first ResizeObserver always triggers a re-seed
   const sizeRef = useRef({ w: 0, h: 0 })
+  const colorsRef = useRef(colors)
   const [sizeVersion, setSizeVersion] = useState(0)
 
+  // Keep colorsRef in sync without triggering loop restarts
+  useEffect(() => {
+    colorsRef.current = colors
+  }, [colors])
+
   const initParticles = useCallback((count, horizonRad, outerRad, colorsLength) => {
-    const pts = []
+    const pts = new Array(count)
     for (let i = 0; i < count; i++) {
-      const radius = horizonRad + Math.pow(Math.random(), 2) * (outerRad - horizonRad)
-      pts.push({
+      pts[i] = {
         angle: Math.random() * Math.PI * 2,
-        radius,
+        radius: horizonRad + Math.pow(Math.random(), 2) * (outerRad - horizonRad),
         height: (Math.random() - 0.5) * 16,
         speedOffset: 0.75 + Math.random() * 0.5,
         colorIdx: Math.floor(Math.random() * colorsLength),
-      })
+      }
     }
     particlesRef.current = pts
   }, [])
 
   useEffect(() => {
     const { w, h } = sizeRef.current
-    if (w === 0 || h === 0) return // wait for real size
+    if (w === 0 || h === 0) return
     initParticles(particleCount, voidRadius, outerRadFromSize(w, h), colors.length)
   }, [particleCount, voidRadius, colors.length, initParticles, outerRadFromSize, sizeVersion])
 
-  // ResizeObserver — sets canvas size and triggers particle re-seed
   useEffect(() => {
     const container = containerRef.current
     const canvas = canvasRef.current
@@ -95,7 +92,7 @@ export default function BlackHole(props) {
       for (const entry of entries) {
         const { width, height } = entry.contentRect
         if (width === 0 || height === 0) continue
-        const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+        const dpr = Math.min(window.devicePixelRatio || 1, 2)
         canvas.width = Math.round(width * dpr)
         canvas.height = Math.round(height * dpr)
         canvas.style.width = `${width}px`
@@ -111,15 +108,23 @@ export default function BlackHole(props) {
     return () => ro.disconnect()
   }, [])
 
-  // Animation loop — single canvas, black fill for trail (bg is black anyway)
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext("2d")
+    // willReadFrequently:false avoids readback overhead; desynchronized reduces input latency
+    const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true })
     if (!ctx) return
 
     let lastTime = performance.now()
     let raf = 0
+
+    // Pre-allocate scratch buffers — avoid GC every frame
+    const MAX = particleCount
+    // Each slot: [px, py, size, alpha, z, colorIdx]
+    const bgBuf = new Array(MAX)
+    const fgBuf = new Array(MAX)
+    let bgLen = 0
+    let fgLen = 0
 
     const draw = (now) => {
       const dt = Math.min((now - lastTime) / 16.667, 3)
@@ -131,24 +136,24 @@ export default function BlackHole(props) {
         return
       }
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-      // Black semi-transparent fill for trail — works correctly on dark bg
       ctx.globalAlpha = trailAlpha
       ctx.fillStyle = "#000000"
       ctx.fillRect(0, 0, w, h)
-      ctx.globalAlpha = 1.0
 
       const outerRad = outerRadFromSize(w, h)
       const { cx: voidCx, cy: voidCy } = resolveCenter(w, h)
-
       const pts = particlesRef.current
+      const colorsArr = colorsRef.current
+
       if (pts.length === 0) {
         raf = requestAnimationFrame(draw)
         return
       }
 
+      // Cache trig — identical each frame for given tilt values
       const tiltRad = (tilt * Math.PI) / 180
       const tiltSidewayRad = (tiltSideway * Math.PI) / 180
       const cosTilt = Math.cos(tiltRad)
@@ -156,14 +161,11 @@ export default function BlackHole(props) {
       const cosSide = Math.cos(tiltSidewayRad)
       const sinSide = Math.sin(tiltSidewayRad)
 
-      const bg = bgRef.current
-      const fg = fgRef.current
-      bg.length = 0
-      fg.length = 0
+      bgLen = 0
+      fgLen = 0
 
       for (let i = 0; i < pts.length; i++) {
         const pt = pts[i]
-
         const speedFactor = Math.sqrt(voidRadius / Math.max(pt.radius, 10))
         pt.angle += orbitSpeed * speedFactor * pt.speedOffset * 0.012 * dt
         pt.radius -= pullSpeed * speedFactor * pt.speedOffset * dt
@@ -194,35 +196,45 @@ export default function BlackHole(props) {
 
         const size = Math.max(0.3, particleSize * scale)
         const alpha = Math.max(0.35, 1 - ((z3d + outerRad) / (2 * outerRad)) * 0.45)
-        const color = colors[pt.colorIdx % colors.length]
 
-        const p = { x: px, y: py, size, alpha, z: z3d, color }
-        if (z3d >= 0) bg.push(p)
-        else fg.push(p)
+        if (z3d >= 0) {
+          bgBuf[bgLen++] = { x: px, y: py, size, alpha, z: z3d, colorIdx: pt.colorIdx }
+        } else {
+          fgBuf[fgLen++] = { x: px, y: py, size, alpha, z: z3d, colorIdx: pt.colorIdx }
+        }
       }
 
-      bg.sort(byDepth)
-      fg.sort(byDepth)
+      // Sort only the filled slice (avoids sorting full pre-allocated array)
+      if (bgLen > 1) bgBuf.length = bgLen, bgBuf.sort((a, b) => b.z - a.z)
+      if (fgLen > 1) fgBuf.length = fgLen, fgBuf.sort((a, b) => b.z - a.z)
 
-      // Draw back particles
-      for (let i = 0; i < bg.length; i++) {
-        const pt = bg[i]
-        ctx.globalAlpha = pt.alpha
-        ctx.fillStyle = pt.color
-        ctx.beginPath()
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2)
-        ctx.fill()
+      // Batch draws by color to minimize fillStyle/globalAlpha state changes
+      const drawBatch = (buf, len) => {
+        // Group by colorIdx
+        // For 1–few colors this is very fast
+        const groups = {}
+        for (let i = 0; i < len; i++) {
+          const p = buf[i]
+          const key = p.colorIdx
+          if (!groups[key]) groups[key] = []
+          groups[key].push(p)
+        }
+        for (const key in groups) {
+          const color = colorsArr[key % colorsArr.length]
+          ctx.fillStyle = color
+          const group = groups[key]
+          for (let j = 0; j < group.length; j++) {
+            const p = group[j]
+            ctx.globalAlpha = p.alpha
+            ctx.beginPath()
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+            ctx.fill()
+          }
+        }
       }
 
-      // Draw front particles
-      for (let i = 0; i < fg.length; i++) {
-        const pt = fg[i]
-        ctx.globalAlpha = pt.alpha
-        ctx.fillStyle = pt.color
-        ctx.beginPath()
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2)
-        ctx.fill()
-      }
+      drawBatch(bgBuf, bgLen)
+      drawBatch(fgBuf, fgLen)
 
       ctx.globalAlpha = 1.0
       raf = requestAnimationFrame(draw)
@@ -234,7 +246,6 @@ export default function BlackHole(props) {
     voidRadius,
     particleCount,
     particleSize,
-    JSON.stringify(colors),
     outerRadFromSize,
     resolveCenter,
     tilt,
