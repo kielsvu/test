@@ -94,7 +94,7 @@ export default function PortfolioDetailPage() {
               duration: 0.55,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="fixed inset-0 z-[999] bg-black/95 backdrop-blur-xl flex items-center justify-center"
+            className="fixed inset-0 z-[999] bg-black/95 flex items-center justify-center"
           >
             <button
               onClick={() => setPreviewOpen(false)}
@@ -379,7 +379,7 @@ export default function PortfolioDetailPage() {
                   {currentImage > 0 && (
                     <button
                       onClick={prevImage}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center hover:bg-black/80 transition-all duration-300"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition-all duration-300"
                     >
                       <ChevronLeft size={16} />
                     </button>
@@ -388,7 +388,7 @@ export default function PortfolioDetailPage() {
                   {currentImage < galleryImages.length - 1 && (
                     <button
                       onClick={nextImage}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center hover:bg-black/80 transition-all duration-300"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 flex items-center justify-center hover:bg-black/80 transition-all duration-300"
                     >
                       <ChevronRight size={16} />
                     </button>
