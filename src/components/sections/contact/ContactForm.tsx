@@ -40,7 +40,7 @@ export default function ContactForm() {
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, ease: smoothEase }}
       viewport={{ once: false, amount: 0.2 }}
-      className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 md:p-8 flex flex-col h-full"
+      className="rounded-[28px] border border-white/10 bg-white/[0.04] backdrop-blur-sm p-5 md:p-8 flex flex-col h-full"
     >
       <motion.div
         variants={fieldVariants}
