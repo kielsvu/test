@@ -5,7 +5,7 @@ import { useRef, useEffect, useCallback, useState } from "react"
 const PERSPECTIVE = 1300
 
 const DEFAULTS = {
-  particleCount: 9000,
+  particleCount: 900,
   particleSize: 3,
   colors: ["#B284FF", "#D6BEFF", "#FFFFFF"],
   outerRadius: 100,
