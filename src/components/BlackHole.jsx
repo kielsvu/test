@@ -12,7 +12,7 @@ const DEFAULTS = {
   tilt: 20,
   tiltSideway: 160,
   trail: 50,
-  orbitSpeed: 4,
+  orbitSpeed: 2,
   pullSpeed: 0,
 }
 
