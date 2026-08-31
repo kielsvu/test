@@ -207,7 +207,7 @@ export default function PortfolioShowcase() {
                   The grid reflow still looks smooth because the child cards
                   animate in/out with opacity+scale+y.
                 */}
-                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1 backdrop-blur-sm">
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
                   <AnimatePresence mode="popLayout">
                     {!loading &&
                       displayedProjects.map((item, i) => (
@@ -283,7 +283,7 @@ export default function PortfolioShowcase() {
                   are released after first trigger.
             */}
             {activeTab === 'certificates' && (
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1 backdrop-blur-sm">
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 px-1">
                 {!loading &&
                   certificates.map((item, i) => (
                     <motion.div
@@ -295,7 +295,7 @@ export default function PortfolioShowcase() {
                       transition={{ duration: 0.5, delay: i * 0.04 }}
                       whileHover={{ y: -4 }}
                       onClick={() => openPreview(item.image_url)}
-                      className="cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.06] p-4"
+                      className="cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.06] backdrop-blur-sm p-4"
                     >
                       <div className="rounded-2xl overflow-hidden border border-white/10 h-56">
                         <img
@@ -325,7 +325,7 @@ export default function PortfolioShowcase() {
             */}
             {activeTab === 'techstack' && (
               <div className="min-h-[360px] flex justify-center">
-                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full backdrop-blur-sm">
+                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 max-w-5xl w-full">
                   {!loading &&
                     techStacks?.map((item, index) => (
                       <TechCard key={item.id} item={item} index={index} />
@@ -362,7 +362,7 @@ function TechCard({
       whileHover={{ y: -5 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="group rounded-[24px] border border-white/10 bg-white/[0.04] flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
+      className="group rounded-[24px] border border-white/10 bg-white/[0.04] backdrop-blur-sm flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
     >
       <div className="relative flex items-center justify-center [--tech-icon-bg:#080808]">
         {/* Glow div only mounted while hovered — eliminates idle GPU compositing layer */}
