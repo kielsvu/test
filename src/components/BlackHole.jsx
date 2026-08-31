@@ -1,276 +1,50 @@
-"use client"
-
-import { useRef, useEffect, useCallback, useState } from "react"
-
-const PERSPECTIVE = 1300
-
-const DEFAULTS = {
-  particleCount: 1000,
-  particleSize: 3,
-  colors: ["#ffffff"],
-  outerRadius: 100,
-  tilt: 20,
-  tiltSideway: 160,
-  trail: 50,
-  orbitSpeed: 4,
-  pullSpeed: 0,
-}
-
-export default function BlackHole(props) {
-  const {
-    particleCount = DEFAULTS.particleCount,
-    particleSize: particleSizeRaw = DEFAULTS.particleSize,
-    colors = DEFAULTS.colors,
-    outerRadius = DEFAULTS.outerRadius,
-    tilt = DEFAULTS.tilt,
-    tiltSideway = DEFAULTS.tiltSideway,
-    trail: trailRaw = DEFAULTS.trail,
-    orbitSpeed = DEFAULTS.orbitSpeed,
-    pullSpeed: pullSpeedRaw = DEFAULTS.pullSpeed,
-    style,
-  } = props
-
-  const perspective = PERSPECTIVE
-  // particleSize 1–50 → 0.5–4.5px
-  const particleSize = 0.5 + (Math.max(1, Math.min(50, particleSizeRaw ?? 20)) - 1) * (4 / 49)
-  const pullSpeed = Math.max(0, pullSpeedRaw ?? 1) / 2
-  // trail 0 = no trail (clear fast), 50 = long trail (clear slow)
-  const trailAlpha = Math.max(0.02, 1 - (Math.max(0, trailRaw ?? 40) / 50) * 0.98)
-  // No center sphere — voidRadius is just the respawn boundary, keep it tiny
-  const voidRadius = 8
-
-  // Resolve disk outer radius from live canvas size
-  const outerRadFromSize = useCallback(
-    (w, h) => {
-      const isMobile = w < 768
-      // Mobile: use screen diagonal so disk fills the full viewport
-      const base = isMobile ? Math.sqrt(w * w + h * h) * 0.52 : w / 2
-      const pct = Math.max(0, Math.min(100, outerRadius)) / 100
-      return voidRadius + pct * (base - voidRadius)
-    },
-    [outerRadius]
-  )
-
-  // Disk center: horizontally centered always; vertically centered on screen
-  const resolveCenter = useCallback((w, h) => {
-    return { cx: w * 0.5, cy: h * 0.5 }
-  }, [])
-
-  const canvasRef = useRef(null)
-  const containerRef = useRef(null)
-  const particlesRef = useRef([])
-  const animRef = useRef(0)
-  // Init with 0 so first ResizeObserver always triggers a re-seed
-  const sizeRef = useRef({ w: 0, h: 0 })
-  const [sizeVersion, setSizeVersion] = useState(0)
-
-  const initParticles = useCallback((count, horizonRad, outerRad, colorsLength) => {
-    const pts = []
-    for (let i = 0; i < count; i++) {
-      const radius = horizonRad + Math.pow(Math.random(), 2) * (outerRad - horizonRad)
-      pts.push({
-        angle: Math.random() * Math.PI * 2,
-        radius,
-        height: (Math.random() - 0.5) * 16,
-        speedOffset: 0.75 + Math.random() * 0.5,
-        colorIdx: Math.floor(Math.random() * colorsLength),
-      })
-    }
-    particlesRef.current = pts
-  }, [])
-
-  useEffect(() => {
-    const { w, h } = sizeRef.current
-    if (w === 0 || h === 0) return // wait for real size
-    initParticles(particleCount, voidRadius, outerRadFromSize(w, h), colors.length)
-  }, [particleCount, voidRadius, colors.length, initParticles, outerRadFromSize, sizeVersion])
-
-  // ResizeObserver — sets canvas size and triggers particle re-seed
-  useEffect(() => {
-    const container = containerRef.current
-    const canvas = canvasRef.current
-    if (!container || !canvas) return
-
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect
-        if (width === 0 || height === 0) continue
-        const dpr = Math.min(window.devicePixelRatio || 1, 2)
-        canvas.width = Math.round(width * dpr)
-        canvas.height = Math.round(height * dpr)
-        canvas.style.width = `${width}px`
-        canvas.style.height = `${height}px`
-        const prev = sizeRef.current
-        sizeRef.current = { w: width, h: height }
-        if (prev.w !== width || prev.h !== height) {
-          setSizeVersion((v) => v + 1)
-        }
-      }
-    })
-    ro.observe(container)
-    return () => ro.disconnect()
-  }, [])
-
-  // Animation loop — single canvas, black fill for trail (bg is black anyway)
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    let lastTime = performance.now()
-    let raf = 0
-
-    const draw = (now) => {
-      const dt = Math.min((now - lastTime) / 16.667, 3)
-      lastTime = now
-
-      const { w, h } = sizeRef.current
-      if (w === 0 || h === 0) {
-        raf = requestAnimationFrame(draw)
-        return
-      }
-
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-
-      // Black semi-transparent fill for trail — works correctly on dark bg
-      ctx.globalAlpha = trailAlpha
-      ctx.fillStyle = "#000000"
-      ctx.fillRect(0, 0, w, h)
-      ctx.globalAlpha = 1.0
-
-      const outerRad = outerRadFromSize(w, h)
-      const { cx: voidCx, cy: voidCy } = resolveCenter(w, h)
-
-      const pts = particlesRef.current
-      if (pts.length === 0) {
-        raf = requestAnimationFrame(draw)
-        return
-      }
-
-      const tiltRad = (tilt * Math.PI) / 180
-      const tiltSidewayRad = (tiltSideway * Math.PI) / 180
-      const cosTilt = Math.cos(tiltRad)
-      const sinTilt = Math.sin(tiltRad)
-      const cosSide = Math.cos(tiltSidewayRad)
-      const sinSide = Math.sin(tiltSidewayRad)
-
-      const bg = []
-      const fg = []
-
-      for (let i = 0; i < pts.length; i++) {
-        const pt = pts[i]
-
-        const speedFactor = Math.sqrt(voidRadius / Math.max(pt.radius, 10))
-        pt.angle += orbitSpeed * speedFactor * pt.speedOffset * 0.012 * dt
-        pt.radius -= pullSpeed * speedFactor * pt.speedOffset * dt
-
-        if (pt.radius < voidRadius) {
-          pt.radius = voidRadius + 0.7 * (outerRad - voidRadius) + Math.random() * 0.3 * (outerRad - voidRadius)
-          pt.angle = Math.random() * Math.PI * 2
-          pt.height = (Math.random() - 0.5) * 16
-          continue
-        }
-
-        const x_base = pt.radius * Math.cos(pt.angle)
-        const y_base = pt.height
-        const z_base = pt.radius * Math.sin(pt.angle)
-
-        const y1 = y_base * cosTilt + z_base * sinTilt
-        const z1 = -y_base * sinTilt + z_base * cosTilt
-
-        const x3d = x_base * cosSide - y1 * sinSide
-        const y3d = x_base * sinSide + y1 * cosSide
-        const z3d = z1
-
-        const scale = perspective / (perspective + z3d)
-        const px = voidCx + x3d * scale
-        const py = voidCy + y3d * scale
-
-        if (px < -50 || px > w + 50 || py < -50 || py > h + 50) continue
-
-        const size = Math.max(0.3, particleSize * scale)
-        const alpha = Math.max(0.35, 1 - ((z3d + outerRad) / (2 * outerRad)) * 0.45)
-        const color = colors[pt.colorIdx % colors.length]
-
-        const p = { x: px, y: py, size, alpha, z: z3d, color }
-        if (z3d >= 0) bg.push(p)
-        else fg.push(p)
-      }
-
-      bg.sort((a, b) => b.z - a.z)
-      fg.sort((a, b) => b.z - a.z)
-
-      // Draw back particles
-      for (let i = 0; i < bg.length; i++) {
-        const pt = bg[i]
-        ctx.globalAlpha = pt.alpha
-        ctx.fillStyle = pt.color
-        ctx.beginPath()
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2)
-        ctx.fill()
-      }
-
-      // Draw front particles
-      for (let i = 0; i < fg.length; i++) {
-        const pt = fg[i]
-        ctx.globalAlpha = pt.alpha
-        ctx.fillStyle = pt.color
-        ctx.beginPath()
-        ctx.arc(pt.x, pt.y, pt.size, 0, Math.PI * 2)
-        ctx.fill()
-      }
-
-      ctx.globalAlpha = 1.0
-      raf = requestAnimationFrame(draw)
-    }
-
-    raf = requestAnimationFrame(draw)
-    return () => cancelAnimationFrame(raf)
-  }, [
-    voidRadius,
-    particleCount,
-    particleSize,
-    JSON.stringify(colors),
-    outerRadFromSize,
-    resolveCenter,
-    tilt,
-    tiltSideway,
-    trailAlpha,
-    orbitSpeed,
-    pullSpeed,
-    perspective,
-  ])
-
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-        background: "transparent",
-        pointerEvents: "none",
-        zIndex: 0,
-        ...style,
-      }}
-    >
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          display: "block",
-          pointerEvents: "none",
-        }}
-      />
-    </div>
-  )
-}
+"use client";import{jsx as _jsx,jsxs as _jsxs}from"react/jsx-runtime";import{useRef,useEffect,useCallback,useState}from"react";// ─── Constants ───────────────────────────────────────────────
+const BG="#000000"// Stage background — void fill & halo both match this
+;const PERSPECTIVE=1300// Fixed 3D projection depth (no longer a control)
+;// ─── Defaults ────────────────────────────────────────────────
+const DEFAULT_CENTRE={voidRadius:40,voidX:50,voidY:50};const DEFAULTS={showCenter:true,centre:DEFAULT_CENTRE,particleCount:1e3,particleSize:4,colors:["#ffffff"],outerRadius:70,tilt:20,tiltSideway:160,trail:50,orbitSpeed:4,pullSpeed:0};// ─── Component ───────────────────────────────────────────────
+export default function BlackHole(props){// Flat variables — destructure directly with defaults
+const{showCenter=DEFAULTS.showCenter,centre,particleCount=DEFAULTS.particleCount,particleSize:particleSizeRaw=DEFAULTS.particleSize,colors=DEFAULTS.colors,outerRadius=DEFAULTS.outerRadius,tilt=DEFAULTS.tilt,tiltSideway=DEFAULTS.tiltSideway,trail:trailRaw=DEFAULTS.trail,orbitSpeed=DEFAULTS.orbitSpeed,pullSpeed:pullSpeedRaw=DEFAULTS.pullSpeed,style}=props;// Unpack the grouped center modal, merged with its defaults
+const{voidRadius:rawVoidRadius,voidX,voidY}={...DEFAULT_CENTRE,...centre};// Void fill matches the bg
+const voidColor=BG;const perspective=PERSPECTIVE;// Map whole-number slider values to effective render values
+// Particle size 1–50 → 0.5–4.5 px (1 = old "10", 50 = old "90")
+const particleSize=.5+(Math.max(1,Math.min(50,particleSizeRaw??20))-1)*(4/49);const pullSpeed=Math.max(0,pullSpeedRaw??1)/2// 0–20 → 0–10
+;// Trail: 0 = clear every frame (no trail), 50 = slow fade (max trail)
+const trailAlpha=Math.max(.02,1-Math.max(0,trailRaw??40)/50*.98);const voidRadius=showCenter!==false?rawVoidRadius:1;// Resolve outer radius % → world px against the live canvas size
+// 0% sits on the center void, 100% reaches the canvas edge (full width)
+const outerRadFromSize=useCallback((w,_h)=>{const maxR=w/2// 100% reaches the canvas edge → full width
+;const pct=Math.max(0,Math.min(100,outerRadius))/100;return voidRadius+pct*(maxR-voidRadius);},[voidRadius,outerRadius]);const canvasRef=useRef(null);const fgCanvasRef=useRef(null);const containerRef=useRef(null);const particlesRef=useRef([]);const animRef=useRef(0);const sizeRef=useRef({w:600,h:600});// Bumped whenever the real canvas size changes, so particles re-seed in place
+const[sizeVersion,setSizeVersion]=useState(0);// ─── Initialize Particles ────────────────────────────────
+const initParticles=useCallback((count,horizonRad,outerRad,colorsLength)=>{const pts=[];for(let i=0;i<count;i++){// Power distribution (Math.pow(r, 2)) so density is higher near the event horizon (gravity cluster)
+const radius=horizonRad+Math.pow(Math.random(),2)*(outerRad-horizonRad);pts.push({angle:Math.random()*Math.PI*2,radius,height:(Math.random()-.5)*16,speedOffset:.75+Math.random()*.5,colorIdx:Math.floor(Math.random()*colorsLength)});}particlesRef.current=pts;},[]);// Seed particles already in place — on mount, when params change, and
+// (via sizeVersion) as soon as the true canvas size is known
+useEffect(()=>{const{w,h}=sizeRef.current;initParticles(particleCount,voidRadius,outerRadFromSize(w,h),colors.length);},[particleCount,voidRadius,colors.length,initParticles,outerRadFromSize,sizeVersion]);// ─── Resize Observer ─────────────────────────────────────
+useEffect(()=>{const container=containerRef.current;const canvas=canvasRef.current;const fgCanvas=fgCanvasRef.current;if(!container||!canvas||!fgCanvas)return;const ro=new ResizeObserver(entries=>{for(const entry of entries){const{width,height}=entry.contentRect;const dpr=Math.min(window.devicePixelRatio||1,1.5);canvas.width=width*dpr;canvas.height=height*dpr;canvas.style.width=`${width}px`;canvas.style.height=`${height}px`;fgCanvas.width=width*dpr;fgCanvas.height=height*dpr;fgCanvas.style.width=`${width}px`;fgCanvas.style.height=`${height}px`;const prev=sizeRef.current;sizeRef.current={w:width,h:height};// Re-seed only on a real dimension change (avoids render loops)
+if(prev.w!==width||prev.h!==height){setSizeVersion(v=>v+1);}}});ro.observe(container);return()=>ro.disconnect();},[]);// ─── Animation Loop ──────────────────────────────────────
+useEffect(()=>{const canvas=canvasRef.current;const fgCanvas=fgCanvasRef.current;if(!canvas||!fgCanvas)return;const ctx=canvas.getContext("2d");const fgCtx=fgCanvas.getContext("2d");if(!ctx||!fgCtx)return;let lastTime=performance.now();const draw=now=>{const dt=Math.min((now-lastTime)/16.667,3)// Normalize to ~60fps
+;lastTime=now;const{w,h}=sizeRef.current;const dpr=Math.min(window.devicePixelRatio||1,1.5);// Setup high DPR drawing context
+ctx.setTransform(dpr,0,0,dpr,0,0);fgCtx.setTransform(dpr,0,0,dpr,0,0);// Explicitly reset globalAlpha to 1.0 to prevent previous frame's settings from corrupting the fade
+ctx.globalAlpha=1;fgCtx.globalAlpha=1;// Fade main canvas (bg particles + sphere) trails via destination-out (keeps canvas transparent)
+ctx.globalCompositeOperation="destination-out";ctx.fillStyle=`rgba(0, 0, 0, ${trailAlpha})`;ctx.fillRect(0,0,w,h);ctx.globalCompositeOperation="source-over";// Fade foreground canvas trails via destination-out (keeps canvas transparent)
+fgCtx.globalCompositeOperation="destination-out";fgCtx.fillStyle=`rgba(0, 0, 0, ${trailAlpha})`;fgCtx.fillRect(0,0,w,h);fgCtx.globalCompositeOperation="source-over";// Outer disk radius in world px, resolved against the live canvas size
+const outerRad=outerRadFromSize(w,h);// Void position anchored top-left: 0% = left/top edge, 100% = right/bottom
+const voidCx=voidX/100*w;const voidCy=voidY/100*h;const pts=particlesRef.current;const tiltRad=tilt*Math.PI/180;const tiltSidewayRad=tiltSideway*Math.PI/180;// Split particles into foreground and background arrays for perfect 3D occlusion layering
+const backgroundParticles=[];const foregroundParticles=[];for(let i=0;i<pts.length;i++){const pt=pts[i];// Physics Orbit Speed increases closer to core (Relativistic approximation: v ~ 1/sqrt(r))
+const speedFactor=Math.sqrt(voidRadius/Math.max(pt.radius,10));const localOrbitSpeed=orbitSpeed*speedFactor*pt.speedOffset;const localPullSpeed=pullSpeed*speedFactor*pt.speedOffset;pt.angle+=localOrbitSpeed*.012*dt;pt.radius-=localPullSpeed*dt;// Core consumption re-spawn
+if(pt.radius<voidRadius){pt.radius=voidRadius+.7*(outerRad-voidRadius)+Math.random()*.3*(outerRad-voidRadius);pt.angle=Math.random()*Math.PI*2;pt.height=(Math.random()-.5)*16;continue;}// 3D coordinates relative to center (XZ orbital plane)
+const cosA=Math.cos(pt.angle);const sinA=Math.sin(pt.angle);// Base coordinates in XZ plane
+const x_base=pt.radius*cosA;const y_base=pt.height;const z_base=pt.radius*sinA;// 1. Apply main inclination tilt (around X-axis)
+const x1=x_base;const y1=y_base*Math.cos(tiltRad)+z_base*Math.sin(tiltRad);const z1=-y_base*Math.sin(tiltRad)+z_base*Math.cos(tiltRad);// 2. Apply sideway tilt (roll around Z-axis)
+const x3d=x1*Math.cos(tiltSidewayRad)-y1*Math.sin(tiltSidewayRad);const y3d=x1*Math.sin(tiltSidewayRad)+y1*Math.cos(tiltSidewayRad);const z3d=z1;// 3D perspective projection
+const scale=perspective/(perspective+z3d);const px=voidCx+x3d*scale;const py=voidCy+y3d*scale;// Render bounding clip optimization
+if(px<-30||px>w+30||py<-30||py>h+30)continue;const size=Math.max(.3,particleSize*scale);// Depth fade: particles get subtly dimmer as they pass behind (balanced both sides)
+const alpha=Math.max(.35,1-(z3d+outerRad)/(2*outerRad)*.45);const color=colors[pt.colorIdx%colors.length];const projectedPt={x:px,y:py,size,alpha,z:z3d,color};if(z3d>=0){backgroundParticles.push(projectedPt);}else{foregroundParticles.push(projectedPt);}}// Sort arrays back-to-front (Z-Buffer)
+backgroundParticles.sort((a,b)=>b.z-a.z);foregroundParticles.sort((a,b)=>b.z-a.z);// ─── Step A: Draw Background Particles (Passing Behind Black Hole) ───
+for(let i=0;i<backgroundParticles.length;i++){const pt=backgroundParticles[i];ctx.globalAlpha=pt.alpha;ctx.fillStyle=pt.color;ctx.beginPath();ctx.arc(pt.x,pt.y,pt.size,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;// ─── Step B: Draw Center Gravity Void (Premium 3D Sphere) ───
+if(showCenter!==false){// Robust color parser to apply radial opacity gradients safely (handles Hex, RGB, and RGBA)
+const hexToRgb=colorStr=>{let r=0,g=0,b=0;if(!colorStr)return{r,g,b};if(colorStr.startsWith("#")){const hex=colorStr.replace("#","");if(hex.length===3){r=parseInt(hex[0]+hex[0],16);g=parseInt(hex[1]+hex[1],16);b=parseInt(hex[2]+hex[2],16);}else if(hex.length>=6){r=parseInt(hex.substring(0,2),16);g=parseInt(hex.substring(2,4),16);b=parseInt(hex.substring(4,6),16);}}else if(colorStr.startsWith("rgb")){const match=colorStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);if(match){r=parseInt(match[1]);g=parseInt(match[2]);b=parseInt(match[3]);}}return{r,g,b};};const voidRgb=hexToRgb(voidColor);// Layer 3: Base sphere with 3D depth gradient (dark core → slightly lighter edge)
+const sphereGrad=ctx.createRadialGradient(voidCx-voidRadius*.25,voidCy-voidRadius*.3,voidRadius*.05,voidCx,voidCy,voidRadius);// Compute slightly brighter tones from void color for 3D depth
+const edgeR=Math.min(255,voidRgb.r+18);const edgeG=Math.min(255,voidRgb.g+18);const edgeB=Math.min(255,voidRgb.b+18);sphereGrad.addColorStop(0,`rgba(${Math.min(255,voidRgb.r+8)}, ${Math.min(255,voidRgb.g+8)}, ${Math.min(255,voidRgb.b+8)}, 1)`);sphereGrad.addColorStop(.65,`rgba(${voidRgb.r}, ${voidRgb.g}, ${voidRgb.b}, 1)`);sphereGrad.addColorStop(.92,`rgba(${edgeR}, ${edgeG}, ${edgeB}, 1)`);sphereGrad.addColorStop(1,`rgba(${edgeR}, ${edgeG}, ${edgeB}, 0.9)`);ctx.globalAlpha=1;ctx.fillStyle=sphereGrad;ctx.beginPath();ctx.arc(voidCx,voidCy,voidRadius,0,Math.PI*2);ctx.fill();// Layer 5: Rim light (bright edge outline for 3D pop)
+const rimGrad=ctx.createRadialGradient(voidCx,voidCy,voidRadius*.88,voidCx,voidCy,voidRadius*1.02);rimGrad.addColorStop(0,`rgba(255, 255, 255, 0)`);rimGrad.addColorStop(.6,`rgba(180, 180, 200, 0.06)`);rimGrad.addColorStop(.85,`rgba(180, 180, 200, 0.12)`);rimGrad.addColorStop(1,`rgba(180, 180, 200, 0)`);ctx.globalAlpha=1;ctx.fillStyle=rimGrad;ctx.beginPath();ctx.arc(voidCx,voidCy,voidRadius*1.02,0,Math.PI*2);ctx.fill();}// ─── Step C: Draw Foreground Particles on separate transparent canvas ───
+for(let i=0;i<foregroundParticles.length;i++){const pt=foregroundParticles[i];fgCtx.globalAlpha=pt.alpha;fgCtx.fillStyle=pt.color;fgCtx.beginPath();fgCtx.arc(pt.x,pt.y,pt.size,0,Math.PI*2);fgCtx.fill();}fgCtx.globalAlpha=1;animRef.current=requestAnimationFrame(draw);};animRef.current=requestAnimationFrame(draw);return()=>cancelAnimationFrame(animRef.current);},[voidX,voidY,voidRadius,voidColor,showCenter,particleCount,particleSize,JSON.stringify(colors),outerRadFromSize,tilt,tiltSideway,trailAlpha,orbitSpeed,pullSpeed,perspective]);return /*#__PURE__*/_jsxs("div",{ref:containerRef,style:{position:"fixed",inset:0,width:"100vw",height:"100dvh",minWidth:0,minHeight:0,overflow:"hidden",background:"transparent",pointerEvents:"none",zIndex:0,...style},children:[/*#__PURE__*/_jsx("canvas",{ref:canvasRef,style:{position:"absolute",inset:0,display:"block",width:"100%",height:"100%",maxWidth:"100%",maxHeight:"100%",pointerEvents:"none"}}),/*#__PURE__*/_jsx("canvas",{ref:fgCanvasRef,style:{position:"absolute",inset:0,display:"block",width:"100%",height:"100%",maxWidth:"100%",maxHeight:"100%",pointerEvents:"none"}})]});}// ─── Default Props ───────────────────────────────────────────
+BlackHole.defaultProps={...DEFAULTS};// ─── Property Controls ──────────────────────────────────────
