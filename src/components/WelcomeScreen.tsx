@@ -91,8 +91,7 @@ export default function WelcomeScreen() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'rgba(255,255,255,0.03)',
-                backdropFilter: 'blur(10px)',
+                background: 'rgba(255,255,255,0.05)',
               }}
             >
               <Icon size={18} color="white" />
@@ -117,7 +116,6 @@ export default function WelcomeScreen() {
               flexWrap: 'wrap',
             }}
           >
-            {}
             <motion.span
               initial={{ opacity: 0, x: 120 }}
               animate={{ opacity: 1, x: 0 }}
@@ -135,7 +133,6 @@ export default function WelcomeScreen() {
               Welcome
             </motion.span>
 
-            {}
             <motion.span
               initial={{ opacity: 0, x: -120 }}
               animate={{ opacity: 1, x: 0 }}
@@ -154,7 +151,6 @@ export default function WelcomeScreen() {
             </motion.span>
           </div>
 
-          {}
           <motion.h1
             initial={{ opacity: 0, y: 70 }}
             animate={{ opacity: 1, y: 0 }}
@@ -178,26 +174,25 @@ export default function WelcomeScreen() {
         </div>
 
         <motion.div
-  initial={{ opacity: 0, y: -40 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{
-    delay: 2.1,
-    duration: 1.6,
-    ease: [0.22, 1, 0.36, 1],
-  }}
-  style={{
-    padding: '6px 14px',
-    borderRadius: '999px',
-    border: '1px solid rgba(255,255,255,0.12)',
-    background: 'rgba(255,255,255,0.04)',
-    backdropFilter: 'blur(10px)',
-    fontSize: '12px',
-    letterSpacing: '0.12em',
-    color: 'rgba(255,255,255,0.7)',
-  }}
->
-  jhner.dev
-</motion.div>
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 2.1,
+            duration: 1.6,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{
+            padding: '6px 14px',
+            borderRadius: '999px',
+            border: '1px solid rgba(255,255,255,0.12)',
+            background: 'rgba(255,255,255,0.05)',
+            fontSize: '12px',
+            letterSpacing: '0.12em',
+            color: 'rgba(255,255,255,0.7)',
+          }}
+        >
+          jhner.dev
+        </motion.div>
       </motion.div>
     </div>
   )
