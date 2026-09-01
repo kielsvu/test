@@ -223,6 +223,7 @@ export default function PortfolioShowcase() {
                             delay: i * 0.04,
                             ease: smoothEase,
                           }}
+                          style={{ backdropFilter: 'blur(4px)' }}
                         >
                           <PortfolioCard
                             title={item.title}
@@ -295,7 +296,8 @@ export default function PortfolioShowcase() {
                       transition={{ duration: 0.5, delay: i * 0.04 }}
                       whileHover={{ y: -4 }}
                       onClick={() => openPreview(item.image_url)}
-                      className="cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.06] backdrop-blur-sm p-4"
+                      style={{ backdropFilter: 'blur(4px)' }}
+                      className="cursor-pointer rounded-[26px] border border-white/10 bg-white/[0.06] p-4"
                     >
                       <div className="rounded-2xl overflow-hidden border border-white/10 h-56">
                         <img
@@ -362,7 +364,8 @@ function TechCard({
       whileHover={{ y: -5 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="group rounded-[24px] border border-white/10 bg-white/[0.04] backdrop-blur-sm flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
+      style={{ backdropFilter: 'blur(4px)' }}
+      className="group rounded-[24px] border border-white/10 bg-white/[0.04] flex flex-col items-center justify-center gap-3 h-[125px] w-[125px] mx-auto"
     >
       <div className="relative flex items-center justify-center [--tech-icon-bg:#080808]">
         {/* Glow div only mounted while hovered — eliminates idle GPU compositing layer */}
