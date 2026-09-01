@@ -1,9 +1,9 @@
 # Jhner.dev
 
-Personal portfolio for Agustin Jhoner.
+Personal portfolio for Jhner Torres
 
 ## Vercel
 
-This project is a standalone Next.js site. It does not require Supabase, a database, authentication, or environment variables.
+This project is a standalone Next.js site. It does require Supabase, a database, authentication, and environment variables.
 
 Build command: `npm run build`
